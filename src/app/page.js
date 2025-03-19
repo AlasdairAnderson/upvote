@@ -3,6 +3,11 @@ import { Card } from "@/components/Card";
 
 export default function Home() {
   return (
-    <Card/>
+    <div className="card-stack">
+      <Card/>
+      <Card/>
+      <Card/>
+    </div>
+
   );
 }

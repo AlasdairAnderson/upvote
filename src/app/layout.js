@@ -35,11 +35,11 @@ export default function RootLayout({ children }) {
         <main>
           {children}
         </main>
-        <footer>
-          <img id="categories" src="/widgetsIcon.svg" alt="categories"/>
-          <img id="search"src="/searchIcon.svg" alt="search"/>
-          <img id="user" src="/Arnold.jpg" alt="user icon"/>
-        </footer>
+        <menu>
+          <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
+          <li><button><img id="search"src="/searchIcon.svg" alt="search"/></button></li>
+          <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
+        </menu>
       </body>
     </html>
   );
