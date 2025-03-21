@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: linear-gradient(to bottom right, #F2F8FE, #6F93A3);
     --foreground: #ededed;
   }
 }
@@ -23,4 +23,155 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  min-width: 14em;
 }
+
+/* Logo start */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo img {
+  height: 3em;
+}
+
+.logo h1 {
+  padding-left: 0.2em;
+  font-size: 2em;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: #FF4500;
+}
+
+/* Logo end */
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+/* Card start */
+.contentCard-background {
+  background-color: #ededed;
+  align-content: center;
+  width: 300px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 20px;
+  min-width: 12em;
+}
+
+.contentCard {
+  background-color: rgba(255, 96, 0, 0.38);
+  width: 90%;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 13px;
+}
+
+.card-header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.card-icon {
+  height: 25px;
+  width: 25px;
+  padding: 3px;
+  background-color: #171717;
+  border-radius: 50px;
+}
+
+.card-content {
+  height: 150px;
+  background-color: #D3331B;
+  padding: 5px;
+}
+
+/* card stats end */
+  .stats {
+    display: flex;
+    align-items: center;
+  }
+
+  .stats img {
+    padding: 5px;
+  }
+
+  progress {
+    margin-left: 10px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 7px;
+    height: 22px;
+  }
+
+  progress::-webkit-progress-bar {
+    border-radius: 5px;
+    background-color: #AAA9A9;
+  }
+
+  #upvote-progress::-webkit-progress-value {
+    background-color: #FF4500;
+    border-radius: 5px
+  }
+
+  #downvote-progress::-webkit-progress-value {
+    background-color: #7193FE;
+    border-radius: 5px
+  }
+
+  #message-progress::-webkit-progress-value {
+    background-color: #FFF;
+    border-radius: 5px
+  }
+  /* Card stats end */
+  /* Card footer start*/
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #card-flip {
+    height: 40px;
+    width: auto;
+  }
+  #card-flip:hover{
+    box-shadow: #171717 1px;
+    filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.4));
+  }
+    /* badges start */
+    .card-badges {
+      height: 23;
+      padding: 3px 10px;
+      background: #7193FE;
+      border-radius: 10px;
+      border: #000 1px solid;
+    }
+    /* badges end */
+  /* Card footer end */
+/* Card end */
+
+/* Footer start */
+menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0.5em 0;
+}
+
+#user {
+  border-radius: 50px;
+  height: 40px;
+  width: 40px;
+}
+
+/* Footer end */
