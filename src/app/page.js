@@ -5,9 +5,6 @@ export default function Home() {
   return (
     <div className="card-stack">
       <Card/>
-      <Card/>
-      <Card/>
     </div>
-
   );
 }

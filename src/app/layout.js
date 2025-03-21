@@ -37,7 +37,8 @@ export default function RootLayout({ children }) {
         </main>
         <menu>
           <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
-          <li><button><img id="search"src="/searchIcon.svg" alt="search"/></button></li>
+          <li><button><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content"></img></button></li>
+          <li><button><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"></img></button></li>
           <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
         </menu>
       </body>
