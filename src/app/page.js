@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="card-stack">
       {Object.values(cards).map((card) => {
-        return <Card/>
+        return <Card key={card.id} card={card}/>
       })}
     </div>
   );

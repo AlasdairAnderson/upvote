@@ -11,13 +11,13 @@ export const fetchCards = createAsyncThunk(
 
         switch (requestType) {
             case 'search':
-                URLargument = `search.json?q=${query}`;
+                URLargument = `search.json?q=${query}&raw_json=1`;
                 break;
             case 'category':
-                URLargument = `r/${query}.json`;
+                URLargument = `r/${query}.json?raw_json=1`;
                 break;
             default:
-                URLargument = 'r/popular.json';
+                URLargument = 'r/popular.json?raw_json=1';
         }
 
         console.log(`${baseURL}${URLargument}`);
@@ -26,7 +26,9 @@ export const fetchCards = createAsyncThunk(
         const data = await request.json();
         const cards = data.data.children.map((child) => {
             const content = child.data;
-            const downvotes = Math.round((content.ups / content.upvote_ratio) - content.ups)
+            console.log(content);
+            const totalvotes = Math.round(content.ups / content.upvote_ratio);
+            const downvotes = totalvotes - content.ups
             const card = {
                 id: content.id,
                 author: content.author,
@@ -37,11 +39,23 @@ export const fetchCards = createAsyncThunk(
                 title: content.title,
                 subreddit_name_prefixed: content.subreddit_name_prefixed,
                 subreddit_id: content.subreddit_id,
-                is_video: content.is_video,
-
-
+                totalvotes: totalvotes,
+                post_content: {}
             }
-            console.log(`card: ${Object.values(card)}`)
+            
+            if(content.post_hint === 'image' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source){
+                card.post_content.content = content.preview.images[0].source.url;
+                card.post_content.type = 'image';
+            } else if (content.post_hint === 'link' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source) {
+                card.post_content.content = content.preview.images[0].source.url;
+                card.post_content.type = 'image';
+            } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
+                card.post_content.content = content.media.reddit_video.dash_url;
+                card.post_content.type = 'video';   
+            } else {
+                card.post_content.content = content.selftext || '';
+                card.post_content.type = 'text';
+            }
             return card;
         })
         return cards;
