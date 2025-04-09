@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, ZCOOL_QingKe_HuangYou } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "./StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <StoreProvider children={children}>
         <header className="logo">
         <img src="/upvotelogo.svg" alt="upvote logo"/>
         <h1 className={`${zcoolQuingKeHaugYou.variable}`}>UPVOTE</h1>
@@ -41,6 +43,7 @@ export default function RootLayout({ children }) {
           <li><button><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"></img></button></li>
           <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
         </menu>
+        </StoreProvider>
       </body>
     </html>
   );
