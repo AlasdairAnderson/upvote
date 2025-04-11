@@ -37,17 +37,11 @@ export const Card = ({card}) => {
   }
 
   return(
-    <div className="contentCard-background">
-      <article className="contentCard">
-        <header className="card-header">
-          <h2 className="card-title">{title}</h2>
-          <img className="card-icon"src="/vercel.svg"/>
-        </header>
-        <section className="card-content">
-          { contentType(post_content) }
-        </section>
+    <article className="contentCard">
+      { contentType(post_content) }
+      <section className="card-content">
+        <h2 className="card-title">{title}</h2>
         <section className="card-stats">
-        
           <div className="stats">
             <img src="/UpvoteIcon.svg" alt="upvote icon"/>
             <StackedProgressBar segments={[{label:"upvote",percentage: Math.round(upvotes/totalvotes * 100), color: "#FF4500"},{lable:"downvote", percentage: Math.round(downvotes/totalvotes * 100), color: "#7193FE"}]} />
@@ -58,8 +52,7 @@ export const Card = ({card}) => {
             <StackedProgressBar segments={[{label:"upvote",percentage: Math.round(num_comments/1500 * 100), color: "#fff"}]} />
           </div>
         </section>
-      </article>
-    </div>
-    );
-
+      </section>
+    </article>
+  );
 }
