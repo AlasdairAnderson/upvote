@@ -9,6 +9,7 @@ export default function Home() {
   const cards  = useAppSelector(selectCards);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
+  const [ testCard, setTestCard ] = useState(Object.values(cards))
 
   useEffect(() => {
     // Fetch cards
@@ -19,8 +20,9 @@ export default function Home() {
   return (
     <div className="card-stack">
       {Object.values(cards).map((card) => {
-        return <Card key={card.id} card={card}/>
+        return(<Card key={card.id} card={card}/>)
       })}
+        
     </div>
   );
 }

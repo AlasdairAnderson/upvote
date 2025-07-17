@@ -4,20 +4,23 @@ export const Card = ({card}) => {
   const { upvotes, downvotes, num_comments, totalvotes, title, post_content } = card
 
   const contentType = (content) => {
+    if (!content || !content.type) {
+      return(<p>No content found</p>)
+    }
     switch (content.type) {
       case 'image':
-        return(<img src={content.content}></img>);
+        return(<img className="content" src={content.content}></img>);
         break;
       case 'video':
-        return (<video controls>
+        return (<video className="content" controls loop>
           <source src={content.content} type="video/mp4"/>
           Your browser does not support the video tag
         </video>);
         break;
       case 'text':
-        return(<p>{content.content}</p>);
+        return(<p className="content">{content.content}</p>);
       default:
-        return(<p>No contnet found</p>);
+        return(<p className="content">No content found</p>);
     }
   }
 
@@ -38,10 +41,12 @@ export const Card = ({card}) => {
 
   return(
     <article className="contentCard">
-      { contentType(post_content) }
       <section className="card-content">
-        <h2 className="card-title">{title}</h2>
-        <section className="card-stats">
+        { contentType(post_content) }
+      </section>
+      <section className="card-information">
+        <h2>{title}</h2>
+        <div className="card-stats">
           <div className="stats">
             <img src="/UpvoteIcon.svg" alt="upvote icon"/>
             <StackedProgressBar segments={[{label:"upvote",percentage: Math.round(upvotes/totalvotes * 100), color: "#FF4500"},{lable:"downvote", percentage: Math.round(downvotes/totalvotes * 100), color: "#7193FE"}]} />
@@ -51,7 +56,7 @@ export const Card = ({card}) => {
             <img src="/MessageIcon.svg" alt="message icon"/>
             <StackedProgressBar segments={[{label:"upvote",percentage: Math.round(num_comments/1500 * 100), color: "#fff"}]} />
           </div>
-        </section>
+        </div>
       </section>
     </article>
   );

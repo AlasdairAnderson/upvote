@@ -23,8 +23,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  height: 100vh;
   min-width: 14em;
+}
+
+header {
+ /* position: absolute; */
+ width: 100%;
 }
 
 /* Logo start */
@@ -51,46 +55,67 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80vh;
 }
 
 /* Card start */
-.contentCard-background {
-  background-color: #ededed;
-  align-content: center;
-  width: 300px;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin: 20px;
-  min-width: 12em;
-}
 
 .contentCard {
   background-color: rgba(255, 96, 0, 0.38);
-  width: 90%;
-  border-radius: 5px;
+  width: 24rem;
+  height: 36rem;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  color: rgb(240, 240, 240);
+  box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
   padding: 15px;
   margin: 13px;
 }
 
-.card-header{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.card-icon {
-  height: 25px;
-  width: 25px;
-  padding: 3px;
-  background-color: #171717;
-  border-radius: 50px;
-}
-
 .card-content {
+  object-fit: cover;
+  width: 100%;
+  opacity: 0.9;
+  height: 100%;
+  transition: opacity .2s ease-out;
+}
+
+/*.content {
+  width: 350px;
+}*/
+
+h2 {
+  position: absolute;
+  inset: auto auto 30px 30px;
+  margin: 0;
+  transition: inset .3s .3s ease-out;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+p {
+  position: absolute;
+  inset: auto auto 80px 30px;
+  opacity: 0;
+  max-width: 80%;
+  transition: opacity .3s ease-out;
+}
+
+&:hover h2 {
+  inset: auto auto 220px 30px;
+  transition: opacity .5s .1s ease-in;
+}
+
+&:hover p {
+  opacity: 1;
+  transition: opacity .5s .1s ease-in;
+}
+
+&:hover .card-content {
+  transition: opacity .3s ease-in;
+  opacity: 1;
+}
+.card-information {
   height: 150px;
   background-color: #D3331B;
   padding: 5px;
@@ -106,58 +131,19 @@ main {
     padding: 5px;
   }
 
-  progress {
-    margin-left: 10px;
-    width: 100%;
-    border: 2px solid black;
-    border-radius: 7px;
-    height: 22px;
-  }
-
-  progress::-webkit-progress-bar {
-    border-radius: 5px;
-    background-color: #AAA9A9;
-  }
-
-  #upvote-progress::-webkit-progress-value {
-    background-color: #FF4500;
-    border-radius: 5px
-  }
-
-  #downvote-progress::-webkit-progress-value {
-    background-color: #7193FE;
-    border-radius: 5px
-  }
-
-  #message-progress::-webkit-progress-value {
-    background-color: #FFF;
-    border-radius: 5px
-  }
-  /* Card stats end */
-  /* Card footer start*/
-  .card-footer {
+  .progress-bar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 20px;
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
   }
-  #card-flip {
-    height: 40px;
-    width: auto;
+
+  .progress-segment {
+    height: 100%;
+    transition: width 0.3s ease;
   }
-  #card-flip:hover{
-    box-shadow: #171717 1px;
-    filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.4));
-  }
-    /* badges start */
-    .card-badges {
-      height: 23;
-      padding: 3px 10px;
-      background: #7193FE;
-      border-radius: 10px;
-      border: #000 1px solid;
-    }
-    /* badges end */
-  /* Card footer end */
 /* Card end */
 
 /* Footer start */
@@ -165,7 +151,7 @@ menu {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 0.5em 0;
+  margin-top: 10px;
 }
 
 #user {

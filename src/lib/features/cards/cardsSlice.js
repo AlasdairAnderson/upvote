@@ -50,7 +50,7 @@ export const fetchCards = createAsyncThunk(
                 card.post_content.content = content.preview.images[0].source.url;
                 card.post_content.type = 'image';
             } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
-                card.post_content.content = content.media.reddit_video.dash_url;
+                card.post_content.content = content.media.reddit_video.fallback_url;
                 card.post_content.type = 'video';   
             } else {
                 card.post_content.content = content.selftext || '';
