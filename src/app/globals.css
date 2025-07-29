@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #CCFBFE;
   --foreground: #171717;
 }
 
@@ -14,16 +14,23 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: linear-gradient(to bottom right, #F2F8FE, #6F93A3);
+    --background: #CCFBFE;
     --foreground: #ededed;
   }
 }
 
+*, *:before, *:after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 body {
+  width: 100vw;
+  height: 100vh;
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  min-width: 14em;
 }
 
 header {
@@ -53,23 +60,49 @@ header {
 /* Logo end */
 
 main {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-stack {
+  flex-grow: 1;
+  padding-top: 10px;
+  text-align: center;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  height: fit-content;
+  z-index: 1;
 }
 
 /* Card start */
 
 .contentCard {
-  align-items: center;
-  display: flex;
-  height: 100vh;
-  justify-content:center;
+  display: inline-block;
+  background: #FFF;
+  border-radius: 20px;
+  overflow: hidden;
+  position: absolute;
+  will-change: transform;
+  transition: all 0.3s ease-in-out;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+
+.moving.contentCard {
+  transition: none;
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
 }
 
 .card-content {
   background: #fff;
-  box-shadow: 3px 3px 20px rgba(0, 0, 0.2);
   height: 450px;
   overflow: hidden;
   position: relative;
@@ -79,13 +112,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &:hover {
-    margin-right: 5px;
-    margin-bottom: 5px;
-    box-shadow: 8px 8px 25px rgba(0, 0, 0.2);
-    transition: 0.2s ease-in-out;
-  }
 }
 
 .content {
@@ -103,6 +129,7 @@ main {
   background-color: rgba(0, 0, 0, 0.219);
   text-align: center;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .card-information {
@@ -116,15 +143,18 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  pointer-events: none;
 }
 
-h2{
+.card-information h2{
   color: #000;
   display: inline-block;
   font-weight: 300;
   margin-bottom: 5px;
   position: relative;
   overflow: hidden;
+  pointer-events: none;
+  font-weight: bold;
 }
 
 .card-information-footer {

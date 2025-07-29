@@ -25,6 +25,8 @@ export const Card = ({card}) => {
     }
   }
 
+
+
   const roundStats = (stat) => {
     if (stat < 1000) {
       return stat;
