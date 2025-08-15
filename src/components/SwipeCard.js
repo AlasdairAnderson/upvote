@@ -1,6 +1,6 @@
 const React = require('react');
 const { useSpring, animated } = require('@react-spring/web');
-const useWindowSize = require('./useWindowSize');
+const useWindowSize = require('@/components/useWindowSize');
 
 const settings = {
     maxTilt: 25, // in deg
@@ -79,7 +79,7 @@ const getSwipeDirection = (property) => {
 // must be created outside of the SwipeCard forwardRef
 const AnimatedDiv = animated.div
 
-const SwipeCard = React.forwardRef(
+export const SwipeCard = React.forwardRef(
   (
     { flickOnSwipe = true, children, onSwipe, onCardLeftScreen, className, preventSwipe = [], swipeRequirementType = 'velocity', swipeThreshold = settings.swipeThreshold, onSwipeRequirementFulfilled, onSwipeRequirementUnfulfilled },
     ref
@@ -273,5 +273,3 @@ const SwipeCard = React.forwardRef(
     )
   }
 )
-
-module.exports = SwipeCard

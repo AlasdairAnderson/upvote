@@ -77,6 +77,8 @@ main {
   align-items: center;
   height: fit-content;
   z-index: 1;
+  /*padding-right: 30%;   300pc */
+  /*padding-bottom: 457px; 457px */
 }
 
 /* Card start */
@@ -92,6 +94,10 @@ main {
   cursor: -webkit-grab;
   cursor: -moz-grab;
   cursor: grab;
+  user-select: none;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  position: relative;
 }
 
 .moving.contentCard {
@@ -178,6 +184,10 @@ main {
 
 .card-information-footer-info p {
   margin: 0 5px;
+}
+
+.swipe {
+  position: absolute;
 }
 
 /*
