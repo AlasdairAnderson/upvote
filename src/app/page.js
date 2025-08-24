@@ -55,19 +55,27 @@ export default function Home() {
   , []);
 
   return (
-    <div className="card-stack">
-      {Object.values(cards).map((card, index) => {
-        return(
-        <SwipeCard
-          ref={childRefs[index]}
-          className='swipe'
-          key={card.id}
-          onSwipe={(dir) => swiped(dir, card.id, index)}
-          onCardLeftScreen={() => outOfFrame(card.id, index)}
-        >
-          <Card card={card} key={card.id}/>
-        </SwipeCard>)
-      })}
-    </div>
+    <main>
+      <div className="card-stack">
+        {Object.values(cards).map((card, index) => {
+          return(
+          <SwipeCard
+            ref={childRefs[index]}
+            className='swipe'
+            key={card.id}
+            onSwipe={(dir) => swiped(dir, card.id, index)}
+            onCardLeftScreen={() => outOfFrame(card.id, index)}
+          >
+            <Card card={card} key={card.id}/>
+          </SwipeCard>)
+        })}
+      </div>
+      <menu>
+        <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
+        <li><button onClick={() => swipe('left')}><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"/>downvote</button></li>
+        <li><button onClick={() => swipe('right')}><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content"/>upvote</button></li>
+        <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
+      </menu>
+    </main>
   );
 }
