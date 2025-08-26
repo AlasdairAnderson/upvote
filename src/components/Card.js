@@ -1,7 +1,7 @@
-
+import {onMouseDown} from 'react';
 
 export const Card = ({card}) => {
-  const { upvotes, downvotes, num_comments, title, post_content } = card
+  const { upvotes, downvotes, num_comments, title, post_content, id } = card
 
   const contentType = (content) => {
     if (!content || !content.type) {
@@ -36,6 +36,7 @@ export const Card = ({card}) => {
     }
   }
 
+
   return(
     <article className="contentCard">
       <section className="card-content">
@@ -44,10 +45,10 @@ export const Card = ({card}) => {
           <h2>{title}</h2>
           <div className="card-information-footer">
             <div className="card-information-footer-info">
-                <img src="/UpvoteIcon.svg" alt="Upvotes"/>
-                <p>{roundStats(upvotes)}</p>
                 <img src="/DownvoteIcon.svg" alt="Downvotes"/>
                 <p>{roundStats(downvotes)}</p>
+                <img src="/UpvoteIcon.svg" alt="Upvotes"/>
+                <p>{roundStats(upvotes)}</p>
             </div>
             <div className="card-information-footer-info">
                 <img src="/MessageIcon.svg" alt="Comments"/>

@@ -1,3 +1,4 @@
+
 import { Geist, Geist_Mono, ZCOOL_QingKe_HuangYou } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
@@ -34,15 +35,7 @@ export default function RootLayout({ children }) {
         <img src="/upvotelogo.svg" alt="upvote logo"/>
         <h1 className={`${zcoolQuingKeHaugYou.variable}`}>UPVOTE</h1>
         </header>
-        <main>
           {children}
-        </main>
-        <menu>
-          <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
-          <li><button><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content"></img></button></li>
-          <li><button><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"></img></button></li>
-          <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
-        </menu>
         </StoreProvider>
       </body>
     </html>

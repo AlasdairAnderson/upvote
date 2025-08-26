@@ -20,13 +20,13 @@ export const fetchCards = createAsyncThunk(
                 URLargument = 'r/popular.json?raw_json=1';
         }
 
-        console.log(`${baseURL}${URLargument}`);
+        //console.log(`${baseURL}${URLargument}`);
         const request = await fetch(`${baseURL}${URLargument}`);
 
         const data = await request.json();
         const cards = data.data.children.map((child) => {
             const content = child.data;
-            console.log(content);
+            //console.log(content);
             const totalvotes = Math.round(content.ups / content.upvote_ratio);
             const downvotes = totalvotes - content.ups
             const card = {
