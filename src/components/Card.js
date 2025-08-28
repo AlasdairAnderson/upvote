@@ -9,19 +9,19 @@ export const Card = ({card}) => {
     }
     switch (content.type) {
       case 'image':
-        return(<img className="content" src={content.content}></img>);
+        return(<img className="card__content" src={content.content}></img>);
         break;
       case 'video':
-        return (<video className="content" controls loop>
+        return (<video className="card__content" controls loop>
           <source src={content.content} type="video/mp4"/>
           Your browser does not support the video tag
         </video>);
         break;
       case 'text':
-        return(<p className="content">{content.content}</p>);
+        return(<p className="card__content">{content.content}</p>);
         break;
       default:
-        return(<p className="content">No content found</p>);
+        return(<p className="card__content">No content found</p>);
     }
   }
 
@@ -38,25 +38,26 @@ export const Card = ({card}) => {
 
 
   return(
-    <article className="contentCard">
-      <section className="card-content">
-        { contentType(post_content) }
-        <div className="card-information">
-          <h2>{title}</h2>
-          <div className="card-information-footer">
-            <div className="card-information-footer-info">
-                <img src="/DownvoteIcon.svg" alt="Downvotes"/>
-                <p>{roundStats(downvotes)}</p>
-                <img src="/UpvoteIcon.svg" alt="Upvotes"/>
-                <p>{roundStats(upvotes)}</p>
-            </div>
-            <div className="card-information-footer-info">
-                <img src="/MessageIcon.svg" alt="Comments"/>
-              <p>{roundStats(num_comments)}</p>
+    <li className="card-stack__item">
+        <section className="card">
+          { contentType(post_content) }
+          <div className="card__information">
+            <h2>{title}</h2>
+            <div className="card__information__footer">
+              <div className="card__information__footer__info">
+                  <img src="/DownvoteIcon.svg" alt="Downvotes"/>
+                  <p>{roundStats(downvotes)}</p>
+                  <img src="/UpvoteIcon.svg" alt="Upvotes"/>
+                  <p>{roundStats(upvotes)}</p>
+              </div>
+              <div className="card__information__footer__info">
+                  <img src="/MessageIcon.svg" alt="Comments"/>
+                <p>{roundStats(num_comments)}</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </article>
+        </section>
+    </li>
+    
   );
 }

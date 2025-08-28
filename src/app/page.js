@@ -22,12 +22,12 @@ export default function Home() {
 
   return (
     <main>
-      <div className="card-stack">
+      <ul className="card-stack">
         {Object.values(cards).map((card, index) => {
           return(
-            <Card card={card} key={card.id} onMouseDown={(event) => clickLog(card.id)}/>
+            <Card card={card} key={card.id} onClick={() => clickLog(card.id)}/>
         )})}
-      </div>
+      </ul>
       <menu>
         <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
         <li><button onClick={() => swipe('left')}><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"/>downvote</button></li>
