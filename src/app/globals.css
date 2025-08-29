@@ -37,6 +37,7 @@ header {
  /* position: absolute; */
  margin: 20px 0;
  width: 100%;
+ height: 10%;
 }
 
 /* Logo start */
@@ -62,28 +63,30 @@ header {
 main {
   height: fit-content;
   width: 100%;
-  overflow: hidden;;
-  display: flex;
+  overflow: hidden;
   flex-direction: column;
+  display: flex;
 }
 
 .card-stack {
+  display: flex;
   flex-grow: 1;
-  padding-top: 10px;
-  height: fit-content;
+  padding: 10px 0;
+  height: 450px;
   z-index: 1;
   position: relative;
-  width: 100%
-  /*padding-right: 30%;   300pc */
-  /*padding-bottom: 457px; 457px */
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  
 }
 
 .card-stack__item {
+  display: flex;
+  align-content: center;
+  justify-content: center;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  border-radius: 20px;
 }
 
 /* Card start */
@@ -105,6 +108,8 @@ main {
   filter:brightness(100%);
   left: 0;
   position: absolute;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   right: 0;
   top: 0;
   transition: 0.5s ease-in-out;
