@@ -1,6 +1,6 @@
 import {onMouseDown} from 'react';
 
-export const Card = ({card}) => {
+export const Card = ({ card, onClick }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
 
   const contentType = (content) => {
@@ -36,9 +36,8 @@ export const Card = ({card}) => {
     }
   }
 
-
   return(
-    <li className="card-stack__item">
+    <li onClick={onClick} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

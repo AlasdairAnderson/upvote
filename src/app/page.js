@@ -11,8 +11,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
 
- 
-  const clickLog = (id) => console.log(`Card ${id} was clicked`);
+  const handleClick = (id) => console.log(`Card ${id} was clicked`);
 
   useEffect(() => {
     // Fetch cards
@@ -25,7 +24,7 @@ export default function Home() {
       <ul className="card-stack">
         {Object.values(cards).map((card, index) => {
           return(
-            <Card card={card} key={card.id} onClick={() => clickLog(card.id)}/>
+            <Card card={card} key={card.id} onClick={handleClick}/>
         )})}
       </ul>
       <menu>
