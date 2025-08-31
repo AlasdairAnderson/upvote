@@ -91,6 +91,7 @@ main {
 /* Card start */
 
 .card {
+  user-select: none;
   background: #fff;
   height: 450px;
   overflow: hidden;

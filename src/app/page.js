@@ -17,14 +17,14 @@ export default function Home() {
     // Fetch cards
     dispatch(fetchCards(redditAPIRequest));
   }
-  , []);
+  , [redditAPIRequest]);
 
   return (
     <main>
       <ul className="card-stack">
         {Object.values(cards).map((card, index) => {
           return(
-            <Card card={card} key={card.id} onClick={handleClick}/>
+            <Card card={card} key={card.id} onMouseDown={handleClick}/>
         )})}
       </ul>
       <menu>

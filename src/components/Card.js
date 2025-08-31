@@ -1,6 +1,6 @@
-import {onMouseDown} from 'react';
 
-export const Card = ({ card, onClick }) => {
+
+export const Card = ({ card, onMouseDown }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
 
   const contentType = (content) => {
@@ -9,19 +9,19 @@ export const Card = ({ card, onClick }) => {
     }
     switch (content.type) {
       case 'image':
-        return(<img className="card__content" src={content.content}></img>);
+        return(<img data-testid={'image'} className="card__content" src={content.content}></img>);
         break;
       case 'video':
-        return (<video className="card__content" controls loop>
+        return (<video data-testid={'video'} className="card__content" controls loop>
           <source src={content.content} type="video/mp4"/>
           Your browser does not support the video tag
         </video>);
         break;
       case 'text':
-        return(<p className="card__content">{content.content}</p>);
+        return(<p data-testid={'text'} className="card__content">{content.content}</p>);
         break;
       default:
-        return(<p className="card__content">No content found</p>);
+        return(<p data-testid={'no content'} className="card__content">No content found</p>);
     }
   }
 
@@ -37,7 +37,7 @@ export const Card = ({ card, onClick }) => {
   }
 
   return(
-    <li onClick={onClick} className="card-stack__item">
+    <li data-testid="card" onMouseDown={() => onMouseDown(id)} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
