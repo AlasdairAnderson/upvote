@@ -21,7 +21,7 @@ export const Card = ({ card, onMouseDown }) => {
         return(<p data-testid={'text'} className="card__content">{content.content}</p>);
         break;
       default:
-        return(<p data-testid={'no content'} className="card__content">No content found</p>);
+        return(<p data-testid={'no content'} className="card__content">Content Type Not Supported</p>);
     }
   }
 

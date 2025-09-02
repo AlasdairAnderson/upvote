@@ -47,8 +47,6 @@ const mockPostInformation = {
             content: 'This is a very long paragraph that will be used to see if the Card component renders'
         }
     }
-
-    
 } 
 
 describe("Card Rendering", () => {
@@ -102,7 +100,14 @@ describe("Card Rendering", () => {
         render(<Card card={mockPostInformation.default}/>);
         const card = screen.getByTestId('card');
         expect(card).toHaveTextContent('221')
-    })
+    });
+});
+describe("Card Interations", () => {
+    it('registers a click', () => {
+        const mockHandelingClick = jest.fn();
+        render(<Card card={mockPostInformation.default} onMouseDown={mockHandelingClick}/>);
+        expect(mockHandelingClick).toHaveBeenCalled;
+    });
 });
 
 
