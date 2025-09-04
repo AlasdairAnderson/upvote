@@ -11,7 +11,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
 
-  const handleClick = (id) => console.log(`Card ${id} was clicked`);
+  
 
   useEffect(() => {
     // Fetch cards
