@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom';
 import { mockPostInformation, mockActiveCard } from '../__mocks__/cardcontent.js'
@@ -68,6 +68,14 @@ describe("Card Interations", () => {
 
         expect(mockHandelingClick).toHaveBeenCalled();
     });
+    it('get current mouse cowardinates', () => {
+        const mockHandelingClick = jest.fn();
+        render(<Card card={mockPostInformation.default} onMouseDown={mockHandelingClick}/>);
+
+        fireEvent.mouseDown(screen.getByTestId('card'), {clientX: 100, clientY: 200});
+
+        expect(mockHandelingClick).toHaveBeenCalledWith(mockPostInformation.default.id, {x: 100, y: 200})
+    })
 });
 
 
