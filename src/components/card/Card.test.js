@@ -1,7 +1,7 @@
 import {render, screen, fireEvent} from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom';
-import { mockPostInformation, mockActiveCard } from '../__mocks__/cardcontent.js'
+import { mockPostInformation, mockActiveCard } from '../../__mocks__/cardcontent.js'
 import { Card } from './Card';
 
 describe("Card Rendering", () => {

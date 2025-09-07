@@ -39,7 +39,7 @@ export const Card = ({ card, onMouseDown }) => {
   
 
   return(
-    <li data-testid="card" onMouseDown={() => onMouseDown(id)} className="card-stack__item">
+    <li data-testid="card" onMouseDown={(event) => onMouseDown(event.clientX, event.clientY, id)} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
