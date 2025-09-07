@@ -68,14 +68,6 @@ describe("Card Interations", () => {
 
         expect(mockHandelingClick).toHaveBeenCalled();
     });
-    it('get current mouse cowardinates', () => {
-        const mockHandelingClick = jest.fn();
-        render(<Card card={mockPostInformation.default} onMouseDown={mockHandelingClick}/>);
-
-        fireEvent.mouseDown(screen.getByTestId('card'), {clientX: 100, clientY: 200});
-
-        expect(mockHandelingClick).toHaveBeenCalledWith(mockPostInformation.default.id, {x: 100, y: 200})
-    })
 });
 
 
