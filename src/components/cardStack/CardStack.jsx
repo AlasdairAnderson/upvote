@@ -4,18 +4,21 @@ import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import React, { useEffect, useState } from "react";
 
 export const CardStack = () => {
-    const cards  = useAppSelector(selectCards);
+  const cards  = useAppSelector(selectCards);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
   const [ activeCard, setActiveCard ] = useState({id: null,
     mouseStartingPosition: {x: null, y:null},
     mouseCurrentPosition: {x: null, y:null},
-    voteStatus: "no vote cast"
+    voteStatus: "none"
   }) 
 
-  const handleMouseDown = (clientX, clientY,id) => {
-    const mousePosition = {x: clientX, y: clientY}
-    return id, mousePosition;
+  const handleMouseDown = (clientX, clientY, id) => {
+    setActiveCard({
+      id: id,
+      mouseStartingPosition: {x: clientX, y: clientY}
+    });
+    console.log(activeCard);
   }
 
   useEffect(() => {

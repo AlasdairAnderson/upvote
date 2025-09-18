@@ -1,8 +1,8 @@
 import {render, screen, fireEvent} from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
-import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import { mockPostInformation, mockActiveCard } from '../../__mocks__/cardcontent.js'
 import { Card } from './Card';
+import React from 'react';
 
 describe("Card Rendering", () => {
     it('Should render with a title', () => {

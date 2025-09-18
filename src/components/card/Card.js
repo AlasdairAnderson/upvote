@@ -1,4 +1,4 @@
-
+import React from "react";
 
 export const Card = ({ card, onMouseDown }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
