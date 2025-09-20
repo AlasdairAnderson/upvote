@@ -1,6 +1,6 @@
-import {render, screen, fireEvent} from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { mockPostInformation, mockActiveCard } from '../../__mocks__/cardcontent.js'
+import { mockPostInformation } from '../../__mocks__/cardcontent.js'
 import { Card } from './Card';
 import React from 'react';
 
@@ -65,6 +65,7 @@ describe("Card Interations", () => {
 
         const card = screen.getByTestId('card');
         await user.click(card);
+        
 
         expect(mockHandelingClick).toHaveBeenCalled();
     });

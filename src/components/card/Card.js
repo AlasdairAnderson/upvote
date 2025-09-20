@@ -34,9 +34,7 @@ export const Card = ({ card, onMouseDown }) => {
       const roundedStat = Math.round(stat/1000);
       return `${roundedStat}K`;
     }
-  }
-
-  
+  }  
 
   return(
     <li data-testid="card" onMouseDown={(event) => onMouseDown(event.clientX, event.clientY, id)} className="card-stack__item">
