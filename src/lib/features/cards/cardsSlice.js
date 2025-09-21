@@ -1,27 +1,36 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { GET } from "app/api/reddit/route";
 
 // Thunk that can call Reddit API to fetch content
 export const fetchCards = createAsyncThunk(
     'cards/fetchCards',
     async (args) => {
         //extract paramerters
+        try{
         const { requestType, query } = args;
-        const baseURL = `https://www.reddit.com/`;
-        let URLargument = '';
+        //const baseURL = `https://www.reddit.com/`;
+        let path = '';
+
+        
 
         switch (requestType) {
             case 'search':
-                URLargument = `search.json?q=${query}&raw_json=1`;
+                path = `search.json?q=${query}&`;
                 break;
             case 'category':
-                URLargument = `r/${query}.json?raw_json=1`;
+                path = `r/${query}.json?`;
                 break;
             default:
-                URLargument = 'r/popular.json?raw_json=1';
+                path = 'r/popular.json?';
         }
-
         //console.log(`${baseURL}${URLargument}`);
-        const request = await fetch(`${baseURL}${URLargument}`);
+        //const request = await fetch(`${baseURL}${URLargument}`);        
+        
+        const request = await fetch(`/api/reddit?path=${path}`);
+
+        if(!request.ok){
+            throw new Error(`HTTP error! status: ${request.status}`);
+        }
 
         const data = await request.json();
         const cards = data.data.children.map((child) => {
@@ -59,7 +68,10 @@ export const fetchCards = createAsyncThunk(
             return card;
         })
         return cards;
-    }
+    } catch(error) {
+        console.error('Fetch Error: ', error);
+        throw error;
+    }}
 )
 
 const cardsSlice = createSlice({
