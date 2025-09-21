@@ -13,6 +13,12 @@ export const CardStack = () => {
     voteStatus: "none"
   }) 
 
+  useEffect(() => {
+    // Fetch cards
+    dispatch(fetchCards(redditAPIRequest));
+  }
+  , [redditAPIRequest]);
+
   const handleMouseDown = (clientX, clientY, id) => {
     setActiveCard({
       id: id,
@@ -21,17 +27,18 @@ export const CardStack = () => {
     console.log(activeCard);
   }
 
-  useEffect(() => {
-    // Fetch cards
-    dispatch(fetchCards(redditAPIRequest));
-  }
-  , [redditAPIRequest]);
-  return(
+  
+
+  if(!cards || Object.values(cards).length === 0){
+    return<div>Loading...</div>;
+  } else {
+    return(
     <ul className="card-stack">
-        {Object.values(cards).map((card, index) => {
-          return(
-            <Card card={card} key={card.id} onMouseDown={handleMouseDown}/>
-        )})}
-      </ul>
+      {Object.values(cards).map((card, index) => {
+        return(
+          <Card card={card} key={card.id} onMouseDown={handleMouseDown}/>
+      )})}
+    </ul>
   )
+  }
 }

@@ -1,5 +1,6 @@
 
 //import { Geist, Geist_Mono, ZCOOL_QingKe_HuangYou } from "next/font/google";
+import React from 'react';
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
