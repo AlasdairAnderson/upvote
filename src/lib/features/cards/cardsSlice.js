@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { GET } from "app/api/reddit/route";
 
 // Thunk that can call Reddit API to fetch content
 export const fetchCards = createAsyncThunk(

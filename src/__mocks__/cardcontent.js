@@ -57,3 +57,7 @@ export const mockActiveCard = {
     },
     vote: 'not cast'
 }
+
+export const redditAPI = {
+    
+}

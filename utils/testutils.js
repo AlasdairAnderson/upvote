@@ -11,9 +11,11 @@ export function renderWithProviders(
         ...renderOptions
     } = {}
 ) {
-    function Wrapper({children}) {
+    function Wrapper({ children }) {
+        console.log(children)
         return <Provider store={store}>{children}</Provider>
     }
+    console.log(store)
 
     return {store, ...render(ui, { wrapper: Wrapper, ...renderOptions})}
 }
