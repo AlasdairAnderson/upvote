@@ -11,21 +11,23 @@ describe('CardStack', () => {
 
     it('renders multiple cards', async () => {
         const preloadedState = {
-            cards: {
-                '123': mockPostInformation.default,
-                '234': mockPostInformation.image,
-                '345': mockPostInformation.text,
-                '456': mockPostInformation.video    
-            },
-            upvotedCards: {},
-            downvotedCards: {},
-            isLoading: false,
-            hasError: false
+            cards: { 
+                cards: {
+                    '123': mockPostInformation.default,
+                    '234': mockPostInformation.image,
+                    '345': mockPostInformation.text,
+                    '456': mockPostInformation.video    
+                },
+                upvotedCards: {},
+                downvotedCards: {},
+                isLoading: false,
+                hasError: false
+            }
         }
         console.log('Preloaded State:', preloadedState);
         const store = makeStore(preloadedState);
         console.log('Store state:', store.getState());
-        //store.dispatch = jest.fn();
+        store.dispatch = jest.fn();
 
         renderWithProviders(<CardStack/>, { store });
         screen.debug();
