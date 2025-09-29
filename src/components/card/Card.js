@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export const Card = ({ card, onMouseDown }) => {
+export const Card = ({ card, activeCard, onMouseDown, onMouseDrag }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
+  const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
 
   const contentType = (content) => {
     if (!content || !content.type) {
@@ -25,8 +26,6 @@ export const Card = ({ card, onMouseDown }) => {
     }
   }
 
-
-
   const roundStats = (stat) => {
     if (stat < 1000) {
       return stat;
@@ -35,9 +34,16 @@ export const Card = ({ card, onMouseDown }) => {
       return `${roundedStat}K`;
     }
   }  
+  
+  useEffect(() => {
+    if(id === activeCard.id){
+      setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});
+      console.log(`setTransform: x:${transformPosition.x}, y:${transformPosition.y}`)
+    }
+  }, [activeCard.mouseDelta])
 
   return(
-    <li data-testid="card" onMouseDown={(event) => onMouseDown(event.clientX, event.clientY, id)} className="card-stack__item">
+    <li style={{transform: [{translateX: `${transformPosition.x}px`}, {translateY: `${transformPosition.y}px`}]}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDown(event.clientX, event.clientY, id)} onDrag={(event) => onMouseDrag(event.clientX, event.clientY, id)} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

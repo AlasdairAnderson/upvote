@@ -10,6 +10,7 @@ export const CardStack = () => {
   const [ activeCard, setActiveCard ] = useState({id: null,
     mouseStartingPosition: {x: null, y:null},
     mouseCurrentPosition: {x: null, y:null},
+    mouseDelta: {x: null, y:null},
     voteStatus: "none"
   }) 
 
@@ -25,8 +26,21 @@ export const CardStack = () => {
       id: id,
       mouseStartingPosition: {x: clientX, y: clientY}
     });
-    console.log(activeCard);
+    //console.log(`Mouse Down Event: ${activeCard.id}`);
   }
+
+  const handelMouseDrag = (clientX, clientY, id) => {
+    if(id === activeCard.id){
+      const DeltaX = clientX - activeCard.mouseStartingPosition.x;
+      const DeltaY = clientY - activeCard.mouseStartingPosition.y;
+      setActiveCard({
+        ...activeCard,
+        mouseCurrentPosition: {x: clientX, y: clientY},
+        mouseDelta: {x: DeltaX, y: DeltaY}
+      })
+      //console.log(`Drag Event: id:${activeCard.id}, x: ${activeCard.mouseDelta.x}, y:${activeCard.mouseDelta.y}`);   
+  }
+}
 
   
 
@@ -35,9 +49,9 @@ export const CardStack = () => {
   } else {
     return(
     <ul className="card-stack">
-      {Object.values(cards).map((card, index) => {
+      {Object.values(cards).map((card) => {
         return(
-          <Card card={card} key={card.id} onMouseDown={handleMouseDown}/>
+          <Card card={card} key={card.id} activeCard={activeCard} onMouseDown={handleMouseDown} onMouseDrag={handelMouseDrag}/>
       )})}
     </ul>
   )
