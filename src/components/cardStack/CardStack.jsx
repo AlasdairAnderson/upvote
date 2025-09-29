@@ -21,6 +21,7 @@ export const CardStack = () => {
 
   const handleMouseDown = (clientX, clientY, id) => {
     setActiveCard({
+      ...activeCard,
       id: id,
       mouseStartingPosition: {x: clientX, y: clientY}
     });

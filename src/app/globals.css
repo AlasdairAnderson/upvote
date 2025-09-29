@@ -68,6 +68,15 @@ main {
   display: flex;
 }
 
+.voting-sections{
+  display: flex;
+  width: 100%;
+}
+
+.section {
+  width:33%;
+}
+
 .card-stack {
   display: flex;
   flex-grow: 1;

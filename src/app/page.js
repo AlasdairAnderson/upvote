@@ -8,7 +8,13 @@ export default function Home() {
   
   return (
     <main>
-      <CardStack/>
+      <div className='voting-sections'>
+        <section className='downvote section'></section>
+        <section className='novote section'>
+          <CardStack/>
+        </section>
+        <section className='upvote section'></section>
+      </div>
       <menu>
         <li><a><img id="categories" src="/widgetsIcon.svg" alt="categories"/></a></li>
         <li><a><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"/></a></li>
