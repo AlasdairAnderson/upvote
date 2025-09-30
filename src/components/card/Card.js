@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const Card = ({ card, activeCard, onMouseDragStart, onMouseDrag }) => {
+export const Card = ({ card, activeCard, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
 
@@ -35,15 +35,14 @@ export const Card = ({ card, activeCard, onMouseDragStart, onMouseDrag }) => {
     }
   }  
   
-  useEffect(() => {
+  /*useEffect(() => {
     if(id === activeCard.id){
       setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});
-      console.log(`setTransform: x:${transformPosition.x}, y:${transformPosition.y}`)
     }
-  }, [activeCard.mouseDelta])
+  }, [activeCard.mouseDelta])*/
 
   return(
-    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event.clientX, event.clientY, id)} onDrag={(event) => onMouseDrag(event.clientX, event.clientY, id)} className="card-stack__item">
+    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY, id)} onDrag={(event) => {setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});onMouseDrag(event.clientX, event.clientY, id)}} onDragEnd={(event) => {setTransformPosition({x:0, y: 0});onMouseDragStop()}} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

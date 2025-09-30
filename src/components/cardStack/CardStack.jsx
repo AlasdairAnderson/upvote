@@ -7,7 +7,8 @@ export const CardStack = () => {
   const cards  = useAppSelector(selectCards);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
-  const [ activeCard, setActiveCard ] = useState({id: null,
+  const [ activeCard, setActiveCard ] = useState({
+    id: null,
     mouseStartingPosition: {x: null, y:null},
     mouseCurrentPosition: {x: null, y:null},
     mouseDelta: {x: null, y:null},
@@ -20,7 +21,8 @@ export const CardStack = () => {
   }
   , [redditAPIRequest]);
 
-  const handelDragStart= (clientX, clientY, id) => {
+  const handelDragStart= (event, clientX, clientY, id) => {
+    event.dataTransfer.setDragImage(new Image(), 0, 0);
     setActiveCard({
       ...activeCard,
       id: id,
@@ -37,13 +39,22 @@ export const CardStack = () => {
         ...activeCard,
         mouseCurrentPosition: {x: clientX, y: clientY},
         mouseDelta: {x: DeltaX, y: DeltaY}
-      })
+      });
       //console.log(`Drag Event: id:${activeCard.id}, x: ${activeCard.mouseDelta.x}, y:${activeCard.mouseDelta.y}`);   
     }
   }
 
-  
-
+  const handleDragStop = () => {
+    console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
+    setActiveCard({
+      id: null,
+      mouseStartingPosition: {x: null, y:null},
+      mouseCurrentPosition: {x: null, y:null},
+      mouseDelta: {x: 0, y:0},
+      voteStatus: "none"
+    });
+    console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
+  }
   
 
   if(!cards || Object.values(cards).length === 0){
@@ -53,7 +64,7 @@ export const CardStack = () => {
     <ul className="card-stack">
       {Object.values(cards).map((card) => {
         return(
-          <Card card={card} key={card.id} activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag}/>
+          <Card card={card} key={card.id} activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
       )})}
     </ul>
   )
