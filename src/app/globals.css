@@ -102,6 +102,7 @@ main {
   justify-content: center;
   position: absolute;
   border-radius: 20px;
+  transition: transform 200ms ease-out;
 }
 
 /* Card start */
