@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const Card = ({ card, activeCard, onMouseDown, onMouseDrag }) => {
+export const Card = ({ card, activeCard, onMouseDragStart, onMouseDrag }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id } = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
 
@@ -43,7 +43,7 @@ export const Card = ({ card, activeCard, onMouseDown, onMouseDrag }) => {
   }, [activeCard.mouseDelta])
 
   return(
-    <li style={{transform: [{translateX: `${transformPosition.x}px`}, {translateY: `${transformPosition.y}px`}]}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDown(event.clientX, event.clientY, id)} onDrag={(event) => onMouseDrag(event.clientX, event.clientY, id)} className="card-stack__item">
+    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event.clientX, event.clientY, id)} onDrag={(event) => onMouseDrag(event.clientX, event.clientY, id)} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

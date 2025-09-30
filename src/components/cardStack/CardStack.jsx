@@ -20,7 +20,7 @@ export const CardStack = () => {
   }
   , [redditAPIRequest]);
 
-  const handleMouseDown = (clientX, clientY, id) => {
+  const handelDragStart= (clientX, clientY, id) => {
     setActiveCard({
       ...activeCard,
       id: id,
@@ -39,8 +39,10 @@ export const CardStack = () => {
         mouseDelta: {x: DeltaX, y: DeltaY}
       })
       //console.log(`Drag Event: id:${activeCard.id}, x: ${activeCard.mouseDelta.x}, y:${activeCard.mouseDelta.y}`);   
+    }
   }
-}
+
+  
 
   
 
@@ -51,7 +53,7 @@ export const CardStack = () => {
     <ul className="card-stack">
       {Object.values(cards).map((card) => {
         return(
-          <Card card={card} key={card.id} activeCard={activeCard} onMouseDown={handleMouseDown} onMouseDrag={handelMouseDrag}/>
+          <Card card={card} key={card.id} activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag}/>
       )})}
     </ul>
   )
