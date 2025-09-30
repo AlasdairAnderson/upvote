@@ -4,9 +4,9 @@ export async function GET(request) {
         const searchParams = request.nextUrl.searchParams;
         const path = searchParams.get("path") || "r/popular.json?";
 
-        const response = await fetch(`https://www.reddit.com/${path}raw_json=1`, {
+        const response = await fetch(`https://www.reddit.com/${path}&raw_json=1`, {
             headers: {
-                "User-Agent": "my-nextjs-app/1.0"
+                "User-Agent": "web:upvote/v0.1.0 (by /u/dair66"
             }
         });
         
