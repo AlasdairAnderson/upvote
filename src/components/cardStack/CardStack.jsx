@@ -9,7 +9,6 @@ export const CardStack = () => {
   const activeCard = useAppSelector(selectActiveCard);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
-  const [ cardArray, setCardArray ] = useState([]);
   const [ cardPoistioning, setCardPositioning ] = useState({
     mouseStartingPosition: {x: null, y:null},
     mouseCurrentPosition: {x: null, y:null},
@@ -21,16 +20,11 @@ export const CardStack = () => {
     // Fetch cards
     dispatch(fetchCards(redditAPIRequest));
   }
-  , [redditAPIRequest]);
+  , [redditAPIRequest]);  
 
   useEffect(() => {
-    setCardArray(Object.values(cards));
-  }, [cards])
-  
-
-  useEffect(() => {
-    dispatch(updateActiveCard(cardArray[0]));
-  }, [cardArray]);
+    dispatch(updateActiveCard(Object.values(cards)[0]));
+  }, [cards]);
   
 
   /*const handelDragStart= (event, clientX, clientY, id) => {

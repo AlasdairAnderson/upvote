@@ -66,7 +66,7 @@ export const fetchCards = createAsyncThunk(
             }
             return card;
         })
-        return cards;
+        return Object.values(cards);
     } catch(error) {
         console.error('Fetch Error: ', error);
         throw error;
@@ -94,6 +94,9 @@ const cardsSlice = createSlice({
         },
         updateActiveCard: (state, action) => {
             state.activeCard = action.payload;
+        },
+        deleteVotedCard: (state, action) => {
+            delete state.cards[action.payload.id]
         }
     },
     extraReducers: (builder) => {
@@ -116,12 +119,18 @@ const cardsSlice = createSlice({
     }
 })
 
-export const { addUpvote, addDownvote, updateActiveCard } = cardsSlice.actions;
+export const { addUpvote, addDownvote, updateActiveCard, deleteVotedCard } = cardsSlice.actions;
 export const selectCards = (state) => {
     const cards = state.cards.cards;
     return cards;
 };
 export const selectActiveCard = (state) => {
     return state.cards.activeCard;
+}
+export const selectUpvotedCards = (state) => {
+    return state.cards.upvotedCards;
+}
+export const selectDownvotedCards = (state) => {
+    return state.cards.downvotedCards;
 }
 export default cardsSlice.reducer; 

@@ -1,5 +1,6 @@
 'use client'
 import { CardStack } from '@/components/cardStack/CardStack';
+import { Menu } from '@/components/Menu/Menu';
 import React from 'react';
 
 
@@ -15,6 +16,7 @@ export default function Home() {
         </section>
         <section className='upvote section'></section>
       </div>
+      <Menu/>
     </main>
   );
 }
