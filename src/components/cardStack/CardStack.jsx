@@ -1,19 +1,21 @@
 import { Card } from '@/components/card/Card'
-import { selectCards, fetchCards } from "@/lib/features/cards/cardsSlice";
+import { selectCards, selectActiveCard, fetchCards, updateActiveCard } from "@/lib/features/cards/cardsSlice";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
-import React, { useEffect, useState } from "react";
+import { current } from '@reduxjs/toolkit';
+import React, { act, useEffect, useState } from "react";
 
 export const CardStack = () => {
   const cards  = useAppSelector(selectCards);
+  const activeCard = useAppSelector(selectActiveCard);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
-  const [ activeCard, setActiveCard ] = useState({
-    id: null,
+  const [ cardArray, setCardArray ] = useState([]);
+  const [ cardPoistioning, setCardPositioning ] = useState({
     mouseStartingPosition: {x: null, y:null},
     mouseCurrentPosition: {x: null, y:null},
     mouseDelta: {x: null, y:null},
     voteStatus: "none"
-  }) 
+  })
 
   useEffect(() => {
     // Fetch cards
@@ -21,7 +23,17 @@ export const CardStack = () => {
   }
   , [redditAPIRequest]);
 
-  const handelDragStart= (event, clientX, clientY, id) => {
+  useEffect(() => {
+    setCardArray(Object.values(cards));
+  }, [cards])
+  
+
+  useEffect(() => {
+    dispatch(updateActiveCard(cardArray[0]));
+  }, [cardArray]);
+  
+
+  /*const handelDragStart= (event, clientX, clientY, id) => {
     event.dataTransfer.setDragImage(new Image(), 0, 0);
     setActiveCard({
       ...activeCard,
@@ -54,19 +66,15 @@ export const CardStack = () => {
       voteStatus: "none"
     });
     console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
-  }
-  
+  }*/
 
-  if(!cards || Object.values(cards).length === 0){
+  if(!cards || activeCard === undefined){
     return<div>Loading...</div>;
   } else {
     return(
     <ul className="card-stack">
-      {Object.values(cards).map((card) => {
-        return(
-          <Card card={card} key={card.id} activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
-      )})}
+      <Card card={activeCard} /*activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}*//>
     </ul>
   )
   }
-}
+1}

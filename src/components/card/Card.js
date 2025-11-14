@@ -33,16 +33,15 @@ export const Card = ({ card, activeCard, onMouseDragStart, onMouseDrag, onMouseD
       const roundedStat = Math.round(stat/1000);
       return `${roundedStat}K`;
     }
-  }  
-  
-  /*useEffect(() => {
-    if(id === activeCard.id){
-      setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});
-    }
-  }, [activeCard.mouseDelta])*/
+  }
+
+  const handleOnDragStop = () => {
+    onMouseDragStop(); 
+    setTransformPosition({x:0, y: 0});
+  }
 
   return(
-    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY, id)} onDrag={(event) => {setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});onMouseDrag(event.clientX, event.clientY, id)}} onDragEnd={(event) => {setTransformPosition({x:0, y: 0});onMouseDragStop()}} className="card-stack__item">
+    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY, id)} onDrag={(event) => {setTransformPosition({x:activeCard.mouseDelta.x, y: activeCard.mouseDelta.y});onMouseDrag(event.clientX, event.clientY, id)}} onDragEnd={handleOnDragStop} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

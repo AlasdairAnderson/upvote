@@ -79,6 +79,7 @@ const cardsSlice = createSlice({
         cards: {},
         upvotedCards: {},
         downvotedCards: {},
+        activeCard: {},
         isLoading: false,
         hasError: false
     },
@@ -90,6 +91,9 @@ const cardsSlice = createSlice({
         addDownvote: (state, action) => {
             const { id } = action.payload;
             state.downvotedCards[id] = action.payload
+        },
+        updateActiveCard: (state, action) => {
+            state.activeCard = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -112,9 +116,12 @@ const cardsSlice = createSlice({
     }
 })
 
-export const { addUpvote, addDownvote } = cardsSlice.actions;
+export const { addUpvote, addDownvote, updateActiveCard } = cardsSlice.actions;
 export const selectCards = (state) => {
-    const cards = state.cards.cards
+    const cards = state.cards.cards;
     return cards;
 };
+export const selectActiveCard = (state) => {
+    return state.cards.activeCard;
+}
 export default cardsSlice.reducer; 
