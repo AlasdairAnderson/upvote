@@ -27,47 +27,43 @@ export const CardStack = () => {
   }, [cards]);
   
 
-  /*const handelDragStart= (event, clientX, clientY, id) => {
+  const handelDragStart= (event, clientX, clientY) => {
     event.dataTransfer.setDragImage(new Image(), 0, 0);
-    setActiveCard({
-      ...activeCard,
-      id: id,
+    setCardPositioning({
+      ...cardPoistioning,
       mouseStartingPosition: {x: clientX, y: clientY}
     });
-    //console.log(`Mouse Down Event: ${activeCard.id}`);
+    console.log(`Event: ${event.type}, x:${clientX}, y:${clientY}`);
   }
 
-  const handelMouseDrag = (clientX, clientY, id) => {
-    if(id === activeCard.id){
-      const DeltaX = clientX - activeCard.mouseStartingPosition.x;
-      const DeltaY = clientY - activeCard.mouseStartingPosition.y;
-      setActiveCard({
-        ...activeCard,
-        mouseCurrentPosition: {x: clientX, y: clientY},
-        mouseDelta: {x: DeltaX, y: DeltaY}
-      });
-      //console.log(`Drag Event: id:${activeCard.id}, x: ${activeCard.mouseDelta.x}, y:${activeCard.mouseDelta.y}`);   
-    }
+  const handelMouseDrag = (clientX, clientY) => {
+    console.log(`Event: DragStart, mousePosition: x:${clientX}, y:${clientY}; Delta: x:${cardPoistioning.mouseDelta.x}, y ${cardPoistioning.mouseDelta.y}`);
+    const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
+    const DeltaY = clientY - cardPoistioning.mouseStartingPosition.y;
+    setCardPositioning({
+      ...activeCard,
+      mouseCurrentPosition: {x: clientX, y: clientY},
+      mouseDelta: {x: DeltaX, y: DeltaY}
+    });
   }
 
   const handleDragStop = () => {
     console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
-    setActiveCard({
-      id: null,
+    setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},
       mouseDelta: {x: 0, y:0},
       voteStatus: "none"
     });
     console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
-  }*/
+  }
 
   if(!cards || activeCard === undefined){
     return<div>Loading...</div>;
   } else {
     return(
     <ul className="card-stack">
-      <Card card={activeCard} /*activeCard={activeCard} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}*//>
+      <Card card={activeCard} cardPoistioning={cardPoistioning} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
     </ul>
   )
   }

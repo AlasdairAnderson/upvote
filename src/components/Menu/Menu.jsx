@@ -10,14 +10,11 @@ export const Menu = () => {
 
     const onClickUpvote = () => {
         dispatch(addUpvote(activeCard));
-        if(upvotedCards[activeCard.id]){
-            dispatch(deleteVotedCard(activeCard));
-        }
+        dispatch(deleteVotedCard(activeCard));
     }
 
     const onClickDownvote = () => {
         dispatch(addDownvote(activeCard));
-
         dispatch(deleteVotedCard(activeCard));
     }
 
