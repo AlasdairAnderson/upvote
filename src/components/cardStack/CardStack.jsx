@@ -41,21 +41,21 @@ export const CardStack = () => {
     const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
     const DeltaY = clientY - cardPoistioning.mouseStartingPosition.y;
     setCardPositioning({
-      ...activeCard,
+      ...cardPoistioning,
       mouseCurrentPosition: {x: clientX, y: clientY},
       mouseDelta: {x: DeltaX, y: DeltaY}
     });
   }
 
   const handleDragStop = () => {
-    console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
+    console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
     setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},
       mouseDelta: {x: 0, y:0},
       voteStatus: "none"
     });
-    console.log(`handleDragStop ${activeCard.mouseDelta.x}`)
+    console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
   }
 
   if(!cards || activeCard === undefined){

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export const Card = ({ card, cardPositioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
+export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content} = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
 
@@ -41,7 +41,7 @@ export const Card = ({ card, cardPositioning, onMouseDragStart, onMouseDrag, onM
   }
 
   return(
-    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPositioning.mouseDelta.x, y: cardPositioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
+    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
