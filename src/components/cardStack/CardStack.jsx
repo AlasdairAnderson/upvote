@@ -37,7 +37,7 @@ export const CardStack = () => {
   }
 
   const handelMouseDrag = (clientX, clientY) => {
-    console.log(`Event: DragStart, mousePosition: x:${clientX}, y:${clientY}; Delta: x:${cardPoistioning.mouseDelta.x}, y ${cardPoistioning.mouseDelta.y}`);
+    //console.log(`Event: DragStart, mousePosition: x:${clientX}, y:${clientY}; Delta: x:${cardPoistioning.mouseDelta.x}, y ${cardPoistioning.mouseDelta.y}`);
     const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
     const DeltaY = clientY - cardPoistioning.mouseStartingPosition.y;
     setCardPositioning({
@@ -48,7 +48,7 @@ export const CardStack = () => {
   }
 
   const handleDragStop = () => {
-    console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
+    //console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
     setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},

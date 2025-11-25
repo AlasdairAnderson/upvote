@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { elementCenterIsInZone, elementIntersectsZone } from "@/lib/utils/dropzones";
 
 export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
-  const { upvotes, downvotes, num_comments, title, post_content} = card
+  const { upvotes, downvotes, num_comments, title, post_content, id} = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
+  const elRef = useRef(null);
 
   const contentType = (content) => {
     if (!content || !content.type) {
@@ -36,12 +38,27 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
   }
 
   const handleOnDragStop = () => {
-    onMouseDragStop(); 
+    const card = document.getElementById(id);
+    if(!card) return;
+    const upvoteZone = document.getElementsByClassName("upvote section");
+    const downvoteZone = document.getElementsByClassName("downvote section");
+    const downvoteIntersect = elementCenterIsInZone(card, downvoteZone[0]);
+    const upvoteIntersect = elementCenterIsInZone(card, upvoteZone[0]);
+
+    if(upvoteIntersect){
+      console.log(`upvoteIntersect: ${upvoteIntersect}`);
+
+    }
+    if(downvoteIntersect){
+      console.log(`downvoteIntersect: ${downvoteIntersect}`);
+    }
+    
+    onMouseDragStop();
     setTransformPosition({x:0, y: 0});
   }
 
   return(
-    <li style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
+    <li id={id} style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
