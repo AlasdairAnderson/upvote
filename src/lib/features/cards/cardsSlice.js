@@ -5,28 +5,32 @@ export const fetchCards = createAsyncThunk(
     'cards/fetchCards',
     async (args) => {
         //extract paramerters
+        try{
         const { requestType, query } = args;
-        const baseURL = `https://www.reddit.com/`;
-        let URLargument = '';
+        let path = '';
+
+        
 
         switch (requestType) {
             case 'search':
-                URLargument = `search.json?q=${query}&raw_json=1`;
+                path = `search.json?q=${query}&`;
                 break;
             case 'category':
-                URLargument = `r/${query}.json?raw_json=1`;
+                path = `r/${query}.json?`;
                 break;
             default:
-                URLargument = 'r/popular.json?raw_json=1';
-        }
+                path = 'r/popular.json?';
+        }    
+        
+        const request = await fetch(`/api/reddit?path=${path}`);
 
-        console.log(`${baseURL}${URLargument}`);
-        const request = await fetch(`${baseURL}${URLargument}`);
+        if(!request.ok){
+            throw new Error(`HTTP error! status: ${request.status}`);
+        }
 
         const data = await request.json();
         const cards = data.data.children.map((child) => {
             const content = child.data;
-            console.log(content);
             const totalvotes = Math.round(content.ups / content.upvote_ratio);
             const downvotes = totalvotes - content.ups
             const card = {
@@ -58,8 +62,11 @@ export const fetchCards = createAsyncThunk(
             }
             return card;
         })
-        return cards;
-    }
+        return Object.values(cards);
+    } catch(error) {
+        console.error('Fetch Error: ', error);
+        throw error;
+    }}
 )
 
 const cardsSlice = createSlice({
@@ -68,6 +75,7 @@ const cardsSlice = createSlice({
         cards: {},
         upvotedCards: {},
         downvotedCards: {},
+        activeCard: {},
         isLoading: false,
         hasError: false
     },
@@ -79,6 +87,12 @@ const cardsSlice = createSlice({
         addDownvote: (state, action) => {
             const { id } = action.payload;
             state.downvotedCards[id] = action.payload
+        },
+        updateActiveCard: (state, action) => {
+            state.activeCard = action.payload;
+        },
+        deleteVotedCard: (state, action) => {
+            delete state.cards[action.payload.id]
         }
     },
     extraReducers: (builder) => {
@@ -101,9 +115,18 @@ const cardsSlice = createSlice({
     }
 })
 
-export const { addUpvote, addDownvote } = cardsSlice.actions;
+export const { addUpvote, addDownvote, updateActiveCard, deleteVotedCard } = cardsSlice.actions;
 export const selectCards = (state) => {
-    const cards = state.cards.cards
+    const cards = state.cards.cards;
     return cards;
 };
+export const selectActiveCard = (state) => {
+    return state.cards.activeCard;
+}
+export const selectUpvotedCards = (state) => {
+    return state.cards.upvotedCards;
+}
+export const selectDownvotedCards = (state) => {
+    return state.cards.downvotedCards;
+}
 export default cardsSlice.reducer; 
