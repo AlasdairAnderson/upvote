@@ -7,7 +7,6 @@ export const fetchCards = createAsyncThunk(
         //extract paramerters
         try{
         const { requestType, query } = args;
-        //const baseURL = `https://www.reddit.com/`;
         let path = '';
 
         
@@ -21,9 +20,7 @@ export const fetchCards = createAsyncThunk(
                 break;
             default:
                 path = 'r/popular.json?';
-        }
-        //console.log(`${baseURL}${URLargument}`);
-        //const request = await fetch(`${baseURL}${URLargument}`);        
+        }    
         
         const request = await fetch(`/api/reddit?path=${path}`);
 
@@ -34,7 +31,6 @@ export const fetchCards = createAsyncThunk(
         const data = await request.json();
         const cards = data.data.children.map((child) => {
             const content = child.data;
-            //console.log(content);
             const totalvotes = Math.round(content.ups / content.upvote_ratio);
             const downvotes = totalvotes - content.ups
             const card = {

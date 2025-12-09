@@ -7,6 +7,7 @@ import React, { act, useEffect, useState } from "react";
 export const CardStack = () => {
   const cards  = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
+  const [ lowNumberOfCards, setLowNumberOfCards ] = useState(false);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
   const [ cardPoistioning, setCardPositioning ] = useState({
@@ -14,7 +15,7 @@ export const CardStack = () => {
     mouseCurrentPosition: {x: null, y:null},
     mouseDelta: {x: null, y:null},
     voteStatus: "none"
-  })
+  });
 
   useEffect(() => {
     // Fetch cards
@@ -24,8 +25,18 @@ export const CardStack = () => {
 
   useEffect(() => {
     dispatch(updateActiveCard(Object.values(cards)[0]));
+    if(Object.values(cards).length < 3){
+      setLowNumberOfCards(true);
+    }
   }, [cards]);
   
+  //If less than 3 cards are remaining within redux
+  
+
+  useEffect(() => {
+    dispatch(fetchCards(redditAPIRequest));
+    setLowNumberOfCards(false);
+  },[lowNumberOfCards])
 
   const handelDragStart= (event, clientX, clientY) => {
     event.dataTransfer.setDragImage(new Image(), 0, 0);

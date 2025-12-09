@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { elementCenterIsInZone, elementIntersectsZone } from "@/lib/utils/dropzones";
+import { elementCenterIsInZone} from "@/lib/utils/dropzones";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
 export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id} = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
+  const dispatch = useAppDispatch();
+  const activeCard = useAppSelector(selectActiveCard);
   const elRef = useRef(null);
 
   const contentType = (content) => {
@@ -15,7 +19,7 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
         return(<img data-testid={'image'} className="card__content" src={content.content}></img>);
         break;
       case 'video':
-        return (<video data-testid={'video'} className="card__content" controls loop>
+        return (<video data-testid={'video'} className="card__content" controls loop autoPlay={true}>
           <source src={content.content} type="video/mp4"/>
           Your browser does not support the video tag
         </video>);
@@ -46,11 +50,14 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
     const upvoteIntersect = elementCenterIsInZone(card, upvoteZone[0]);
 
     if(upvoteIntersect){
-      console.log(`upvoteIntersect: ${upvoteIntersect}`);
-
+      //console.log(`upvoteIntersect: ${upvoteIntersect}`);
+      dispatch(addUpvote(activeCard));
+      dispatch(deleteVotedCard(activeCard));
     }
     if(downvoteIntersect){
       console.log(`downvoteIntersect: ${downvoteIntersect}`);
+      dispatch(addDownvote(activeCard));
+      dispatch(deleteVotedCard(activeCard));
     }
     
     onMouseDragStop();

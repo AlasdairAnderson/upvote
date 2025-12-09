@@ -187,46 +187,6 @@ main {
   margin: 0 5px;
 }
 
-
-/*
-h2 {
-  position: absolute;
-  inset: auto auto 30px 30px;
-  margin: 0;
-  transition: inset .3s .3s ease-out;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-p {
-  position: absolute;
-  inset: auto auto 80px 30px;
-  opacity: 0;
-  max-width: 80%;
-  transition: opacity .3s ease-out;
-}
-
-&:hover h2 {
-  inset: auto auto 220px 30px;
-  transition: opacity .5s .1s ease-in;
-}
-
-&:hover p {
-  opacity: 1;
-  transition: opacity .5s .1s ease-in;
-}
-
-&:hover .card-content {
-  transition: opacity .3s ease-in;
-  opacity: 1;
-}
-.card-information {
-  height: 150px;
-  background-color: #D3331B;
-  padding: 5px;
-}
-  */
-
 /* card stats end */
   .stats {
     display: flex;
