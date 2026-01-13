@@ -25,7 +25,7 @@ export const fetchCards = createAsyncThunk(
         const request = await fetch(`/api/reddit?path=${path}`);
 
         if(!request.ok){
-            throw new Error(`HTTP error! status: ${request.status}`);
+            throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);
         }
 
         const data = await request.json();
