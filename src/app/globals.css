@@ -106,6 +106,9 @@ main {
 }
 
 /* Card start */
+#vote-path {
+  animation: vote 80000ms ease-in-out;
+}
 
 .card {
   user-select: none;
@@ -118,6 +121,19 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  offset-path: path(
+    "M0,10 Q80,10 100,30 Q120,10 180,10 L200,10"
+  );
+  animation: vote;
+}
+
+@keyframe vote {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
 }
 
 .card__content {

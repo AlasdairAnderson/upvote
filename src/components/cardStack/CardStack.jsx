@@ -31,8 +31,6 @@ export const CardStack = () => {
   }, [cards]);
   
   //If less than 3 cards are remaining within redux
-  
-
   useEffect(() => {
     dispatch(fetchCards(redditAPIRequest));
     setLowNumberOfCards(false);
