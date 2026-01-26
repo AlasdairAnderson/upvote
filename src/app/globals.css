@@ -102,13 +102,48 @@ main {
   justify-content: center;
   position: absolute;
   border-radius: 20px;
-  transition: transform 0.01s ease-out;
+  offset-path: path(
+    "M-200,10 C-145,10 -75,30 0,30 C75,30 145,10 200,10"
+  );
+  offset-anchor: left top;
+  animation: votepath 5000ms infinite alternate ease-in-out;
+}
+
+@keyframes downvote {
+  0% {
+    offset-rotate: 0deg;
+    offset-distance: 50%;
+  }
+  100%{
+    offset-rotate: -20deg;
+    offset-distance: 0%;
+  }
+}
+
+@keyframes upvote {
+  0%{
+    offset-rotate: 0deg;
+    offset-distance: 50%;
+  }
+  100% {
+    offset-rotate: 20deg;
+    offset-distance: 100%;
+  }
+}
+
+@keyframes votepath {
+  0% {
+
+    offset-distance: 0%;
+  }
+
+  100% {
+
+    offset-distance: 100%;
+  }
 }
 
 /* Card start */
-#vote-path {
-  animation: vote 80000ms ease-in-out;
-}
 
 .card {
   user-select: none;
@@ -117,34 +152,10 @@ main {
   overflow: hidden;
   width: 300px;
   border-radius: 20px;
-  /*transition:  0.2s ease-in-out;*/
   display: flex;
   justify-content: center;
   align-items: center;
-  offset-path: path(
-    "M0,10 Q80,10 100,30 Q120,10 180,10 L200,10"
-  );
-  animation: vote 5000ms infinite alternate ease-in-out;;
-}
-
-@keyframes vote {
-  0% {
-    offset-rotate: -20deg;
-    offset-distance: 0%;
-  }
-  45% {
-    offset-rotate: -10deg;
-  }
-  50%{
-    offset-rotate: 0deg;
-  }
-  55%{
-    offset-rotate: 10deg;
-  }
-  100% {
-    offset-rotate: 20deg;
-    offset-distance: 100%;
-  }
+  
 }
 
 .card__content {

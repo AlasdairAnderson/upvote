@@ -9,13 +9,7 @@ export default function Home() {
   
   return (
     <main>
-      <div className='voting-sections'>
-        <section className='downvote section'></section>
-        <section className='novote section'>
-          <CardStack/>
-        </section>
-        <section className='upvote section'></section>
-      </div>
+      <CardStack/>
       <Menu/>
     </main>
   );
