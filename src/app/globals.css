@@ -101,11 +101,13 @@ main {
   align-content: center;
   justify-content: center;
   position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 20px;
   offset-path: path(
     "M-200,10 C-145,10 -75,30 0,30 C75,30 145,10 200,10"
   );
-  offset-anchor: left top;
+  offset-anchor: top;
   animation: votepath 5000ms infinite alternate ease-in-out;
 }
 
@@ -133,12 +135,16 @@ main {
 
 @keyframes votepath {
   0% {
-
+    offset-rotate: -20deg;
     offset-distance: 0%;
   }
 
-  100% {
+  50% {
+    offset-rotate: 0deg;
+  }
 
+  100% {
+    offset-rotate: 20deg;
     offset-distance: 100%;
   }
 }
