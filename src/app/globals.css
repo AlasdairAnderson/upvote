@@ -100,15 +100,14 @@ main {
   display: flex;
   align-content: center;
   justify-content: center;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border-radius: 20px;
+  position:absolute;
+  top:50%;
+  left: 50%;
   offset-path: path(
-    "M-200,10 C-145,10 -75,30 0,30 C75,30 145,10 200,10"
+    "M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30"
   );
-  offset-anchor: top;
-  animation: votepath 5000ms infinite alternate ease-in-out;
+  offset-distance: 50%;
 }
 
 @keyframes downvote {
