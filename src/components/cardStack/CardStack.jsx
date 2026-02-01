@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import { current } from '@reduxjs/toolkit';
 import React, { act, useEffect, useState } from "react";
 
-export const CardStack = () => {
+export const CardStack = ({ animation }) => {
   const cards  = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
   const [ lowNumberOfCards, setLowNumberOfCards ] = useState(false);
@@ -72,7 +72,7 @@ export const CardStack = () => {
   } else {
     return(
     <ul className="card-stack">
-      <Card card={activeCard} cardPoistioning={cardPoistioning} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
+      <Card animation={animation} card={activeCard} cardPoistioning={cardPoistioning} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
     </ul>
   )
   }

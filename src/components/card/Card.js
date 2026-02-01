@@ -3,7 +3,7 @@ import { elementCenterIsInZone} from "@/lib/utils/dropzones";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
-export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
+export const Card = ({ animation, card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id} = card
   const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
   const dispatch = useAppDispatch();
@@ -50,7 +50,6 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
     const upvoteIntersect = elementCenterIsInZone(card, upvoteZone[0]);
 
     if(upvoteIntersect){
-      //console.log(`upvoteIntersect: ${upvoteIntersect}`);
       dispatch(addUpvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
     }
@@ -65,7 +64,7 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
   }
 
   return(
-    <li id={id} style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
+    <li id={id} style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className={`card-stack__item ${animation}`}>
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
