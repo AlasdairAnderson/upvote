@@ -1,7 +1,8 @@
 import { addDownvote, addUpvote, deleteVotedCard, selectActiveCard, selectCards, selectUpvotedCards, selectDownvotedCards } from "@/lib/features/cards/cardsSlice";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 
-export const Menu = () => {
+
+export const Menu = ({ setAnimation, animation }) => {
     const cards = useAppSelector(selectCards);
     const downvotedCards = useAppSelector(selectDownvotedCards);
     const upvotedCards = useAppSelector(selectUpvotedCards);
@@ -9,20 +10,28 @@ export const Menu = () => {
     const activeCard = useAppSelector(selectActiveCard);
 
     const onClickUpvote = () => {
-        dispatch(addUpvote(activeCard));
-        dispatch(deleteVotedCard(activeCard));
+        setAnimation("is-upvoted");
+        setTimeout(() => {
+            dispatch(addUpvote(activeCard));
+            dispatch(deleteVotedCard(activeCard));
+            setAnimation("");
+        },2500)
     }
 
     const onClickDownvote = () => {
-        dispatch(addDownvote(activeCard));
-        dispatch(deleteVotedCard(activeCard));
+        setAnimation("is-downvoted");
+        setTimeout(() => {
+            dispatch(addDownvote(activeCard));
+            dispatch(deleteVotedCard(activeCard));
+            setAnimation("");
+        }, 2500)
     }
 
     return(
         <menu>
-            <li><a><img id="categories" src="/widgetsIcon.svg" alt="categories"/></a></li>
-            <li><a><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet" onClick={onClickDownvote}/></a></li>
-            <li><a><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content" onClick={onClickUpvote}/></a></li>
+            <li><button><img id="categories" src="/widgetsIcon.svg" alt="categories"/></button></li>
+            <li><button onClick={onClickDownvote} disabled={animation != "" ? true : false}><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet"/></button></li>
+            <li><button onClick={onClickUpvote} disabled={animation != "" ? true : false}><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content"/></button></li>
             <li><img id="user" src="/Arnold.jpg" alt="user icon"/></li>
         </menu>
     )

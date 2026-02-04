@@ -3,9 +3,8 @@ import { elementCenterIsInZone} from "@/lib/utils/dropzones";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
-export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onMouseDragStop }) => {
+export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onPointerDrag, onPointerDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id} = card
-  const [transformPosition, setTransformPosition] = useState({x: 0, y:0})
   const dispatch = useAppDispatch();
   const activeCard = useAppSelector(selectActiveCard);
   const elRef = useRef(null);
@@ -41,16 +40,27 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
     }
   }
 
+  const currentDistance = (clientX) => {
+    if (cardPoistioning.mouseStartingPosition.x !== null){
+      // update the offset distance of the card so that it moves along the offset-path alongside the users drag
+      console.log(cardPoistioning.mouseStartingPosition);
+      const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
+      console.log(DeltaX);
+      // Calculate the percentage distance with 5+ (deltx/totalpathwidth * 100)
+      const cardDistance = 5 + (DeltaX / 400 * 100);
+      console.log(cardDistance);
+      return `${cardDistance}%`
+    } else {
+      return '0%'
+    }
+  }
+
   const handleOnDragStop = () => {
     const card = document.getElementById(id);
     if(!card) return;
-    const upvoteZone = document.getElementsByClassName("upvote section");
-    const downvoteZone = document.getElementsByClassName("downvote section");
-    const downvoteIntersect = elementCenterIsInZone(card, downvoteZone[0]);
-    const upvoteIntersect = elementCenterIsInZone(card, upvoteZone[0]);
 
+    /*
     if(upvoteIntersect){
-      //console.log(`upvoteIntersect: ${upvoteIntersect}`);
       dispatch(addUpvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
     }
@@ -58,14 +68,12 @@ export const Card = ({ card, cardPoistioning, onMouseDragStart, onMouseDrag, onM
       console.log(`downvoteIntersect: ${downvoteIntersect}`);
       dispatch(addDownvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
-    }
-    
-    onMouseDragStop();
-    setTransformPosition({x:0, y: 0});
+    }*/
+    onPointerDragStop();
   }
 
   return(
-    <li id={id} style={{transform: `translateX(${transformPosition.x}px) translateY(${transformPosition.y}px)`}} draggable="true" data-testid="card" onDragStart={(event) => onMouseDragStart(event, event.clientX, event.clientY)} onDrag={(event) => {onMouseDrag(event.clientX, event.clientY); setTransformPosition({x:cardPoistioning.mouseDelta.x, y: cardPoistioning.mouseDelta.y});}} onDragEnd={handleOnDragStop} className="card-stack__item">
+    <li id={id} data-testid="card" style={{offsetDistance: currentDistance}} onPointerDown={(event) => {onPointerDragStart(event, event.clientX, event.clientY)} } onPointerMove={(event) => {currentDistance(event.clientX)} } onPointerUp={() => {handleOnDragStop()}} className={`card-stack__item ${animation}`}>
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

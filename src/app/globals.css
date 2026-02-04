@@ -100,15 +100,71 @@ main {
   display: flex;
   align-content: center;
   justify-content: center;
-  position: absolute;
   border-radius: 20px;
-  transition: transform 0.01s ease-out;
+  position:absolute;
+  top:50%;
+  left: 50%;
+  offset-path: path(
+    "M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30"
+  );
+  offset-distance: 50%;
+  animation: card-load 1s forwards;
+}
+
+.is-upvoted {
+  animation: upvote 3s forwards;
+}
+
+.is-downvoted {
+  animation: downvote 3s forwards;
+}
+
+@keyframes downvote {
+  0% {
+    offset-rotate: 0deg;
+    offset-distance: 50%;
+  }
+  20% {
+    opacity:100%;
+  }
+  70% {
+    opacity: 0%;
+  }
+  100%{
+    offset-rotate: -20deg;
+    offset-distance: 0%;
+    opacity: 0%;
+  }
+}
+
+@keyframes upvote {
+  0%{
+    offset-rotate: 0deg;
+    offset-distance: 50%;
+  }
+  20% {
+    opacity: 100%;
+  }
+  70% {
+    opacity: 0%;
+  }
+  100% {
+    offset-rotate: 20deg;
+    offset-distance: 100%;
+    opacity: 0%;
+  }
+}
+
+@keyframes card-load {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
 }
 
 /* Card start */
-#vote-path {
-  animation: vote 80000ms ease-in-out;
-}
 
 .card {
   user-select: none;
@@ -117,23 +173,10 @@ main {
   overflow: hidden;
   width: 300px;
   border-radius: 20px;
-  /*transition:  0.2s ease-in-out;*/
   display: flex;
   justify-content: center;
   align-items: center;
-  offset-path: path(
-    "M0,10 Q80,10 100,30 Q120,10 180,10 L200,10"
-  );
-  animation: vote;
-}
-
-@keyframe vote {
-  from {
-    offset-distance: 0%;
-  }
-  to {
-    offset-distance: 100%;
-  }
+  
 }
 
 .card__content {
@@ -237,6 +280,18 @@ menu {
   /*position: absolute;
   bottom: 0;*/
   width: 100%;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 #user {

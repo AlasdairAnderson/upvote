@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import { current } from '@reduxjs/toolkit';
 import React, { act, useEffect, useState } from "react";
 
-export const CardStack = () => {
+export const CardStack = ({ animation }) => {
   const cards  = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
   const [ lowNumberOfCards, setLowNumberOfCards ] = useState(false);
@@ -37,7 +37,6 @@ export const CardStack = () => {
   },[lowNumberOfCards])
 
   const handelDragStart= (event, clientX, clientY) => {
-    event.dataTransfer.setDragImage(new Image(), 0, 0);
     setCardPositioning({
       ...cardPoistioning,
       mouseStartingPosition: {x: clientX, y: clientY}
@@ -45,7 +44,7 @@ export const CardStack = () => {
     console.log(`Event: ${event.type}, x:${clientX}, y:${clientY}`);
   }
 
-  const handelMouseDrag = (clientX, clientY) => {
+  const handelPointerDrag = (clientX, clientY) => {
     //console.log(`Event: DragStart, mousePosition: x:${clientX}, y:${clientY}; Delta: x:${cardPoistioning.mouseDelta.x}, y ${cardPoistioning.mouseDelta.y}`);
     const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
     const DeltaY = clientY - cardPoistioning.mouseStartingPosition.y;
@@ -57,7 +56,6 @@ export const CardStack = () => {
   }
 
   const handleDragStop = () => {
-    //console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
     setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},
@@ -72,7 +70,7 @@ export const CardStack = () => {
   } else {
     return(
     <ul className="card-stack">
-      <Card card={activeCard} cardPoistioning={cardPoistioning} onMouseDragStart={handelDragStart} onMouseDrag={handelMouseDrag} onMouseDragStop={handleDragStop}/>
+      <Card animation={animation} card={activeCard} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDrag={handelPointerDrag} onPointerDragStop={handleDragStop}/>
     </ul>
   )
   }
