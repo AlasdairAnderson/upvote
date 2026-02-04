@@ -8,6 +8,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
   const dispatch = useAppDispatch();
   const activeCard = useAppSelector(selectActiveCard);
   const elRef = useRef(null);
+  const [ cardOffsetDistance, setCardOffsetDistance ] = useState('50%') ;
 
   const contentType = (content) => {
     if (!content || !content.type) {
@@ -47,15 +48,15 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
       const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
       console.log(DeltaX);
       // Calculate the percentage distance with 5+ (deltx/totalpathwidth * 100)
-      const cardDistance = 5 + (DeltaX / 400 * 100);
-      console.log(cardDistance);
-      return `${cardDistance}%`
+      const cardDistance = 50 + (DeltaX / 400 * 100);
+      console.log(`cardDistance ${cardDistance}%`);
+      setCardOffsetDistance(`${cardDistance}%`);
     } else {
-      return '0%'
+      setCardOffsetDistance('50%');
     }
   }
 
-  const handleOnDragStop = () => {
+  const handleOnDragStop = (event) => {
     const card = document.getElementById(id);
     if(!card) return;
 
@@ -69,11 +70,11 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
       dispatch(addDownvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
     }*/
-    onPointerDragStop();
+    onPointerDragStop(event);
   }
 
   return(
-    <li id={id} data-testid="card" style={{offsetDistance: currentDistance}} onPointerDown={(event) => {onPointerDragStart(event, event.clientX, event.clientY)} } onPointerMove={(event) => {currentDistance(event.clientX)} } onPointerUp={() => {handleOnDragStop()}} className={`card-stack__item ${animation}`}>
+    <li id={id} data-testid="card" style={{offsetDistance: cardOffsetDistance}} onPointerDown={(event) => {onPointerDragStart(event, event.clientX, event.clientY)} } onPointerMove={(event) => {currentDistance(event.clientX)} } onPointerUp={(event) => {handleOnDragStop(event)}} className={`card-stack__item ${animation}`}>
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">

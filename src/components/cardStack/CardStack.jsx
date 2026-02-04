@@ -37,6 +37,7 @@ export const CardStack = ({ animation }) => {
   },[lowNumberOfCards])
 
   const handelDragStart= (event, clientX, clientY) => {
+    event.target.setPointerCapture(event.pointerId);
     setCardPositioning({
       ...cardPoistioning,
       mouseStartingPosition: {x: clientX, y: clientY}
@@ -55,7 +56,8 @@ export const CardStack = ({ animation }) => {
     });
   }
 
-  const handleDragStop = () => {
+  const handleDragStop = (event) => {
+    event.target.releasePointerCapture(event.pointerId)
     setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},
