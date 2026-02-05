@@ -9,6 +9,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
   const activeCard = useAppSelector(selectActiveCard);
   const elRef = useRef(null);
   const [ cardOffsetDistance, setCardOffsetDistance ] = useState('50%') ;
+  const [ cardOffsetRotation, SetCardOffsetRotation ] = useState('0deg');
 
   const contentType = (content) => {
     if (!content || !content.type) {
@@ -47,12 +48,26 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
       console.log(cardPoistioning.mouseStartingPosition);
       const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
       console.log(DeltaX);
-      // Calculate the percentage distance with 5+ (deltx/totalpathwidth * 100)
+      // Calculate the percentage distance with 50+ (deltx/totalpathwidth * 100)
       const cardDistance = 50 + (DeltaX / 400 * 100);
       console.log(`cardDistance ${cardDistance}%`);
       setCardOffsetDistance(`${cardDistance}%`);
     } else {
       setCardOffsetDistance('50%');
+    }
+  }
+
+  const currentRotation = (clientX) => {
+    if (cardPoistioning.mouseStartingPosition.x !== null){
+      //strip cardOffsetDistance string and convert it to a number
+      const currentCardDistance = Number(cardOffsetDistance.substring(0, cardOffsetDistance.length - 1));
+      console.log(currentCardDistance);
+      if(currentCardDistance >= 70){
+        console.log(`cardOffsetRotation: ${cardOffsetRotation}`)
+        SetCardOffsetRotation('10deg')
+      }
+    } else {
+      SetCardOffsetRotation('0deg')
     }
   }
 
@@ -74,7 +89,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
   }
 
   return(
-    <li id={id} data-testid="card" style={{offsetDistance: cardOffsetDistance}} onPointerDown={(event) => {onPointerDragStart(event, event.clientX, event.clientY)} } onPointerMove={(event) => {currentDistance(event.clientX)} } onPointerUp={(event) => {handleOnDragStop(event)}} className={`card-stack__item ${animation}`}>
+    <li id={id} data-testid="card" style={{offsetDistance: cardOffsetDistance, offsetRotate: cardOffsetRotation}} onPointerDown={(event) => {onPointerDragStart(event, event.clientX, event.clientY)} } onPointerMove={(event) => {currentDistance(event.clientX); currentRotation(event.clientX)}} onPointerUp={(event) => {handleOnDragStop(event)}} className={`card-stack__item ${animation}`}>
         <section className="card">
           { contentType(post_content) }
           <div className="card__information">
