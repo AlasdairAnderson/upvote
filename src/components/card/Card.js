@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
-export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onPointerDrag, onPointerDragStop }) => {
+export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onPointerDragStop }) => {
   const { upvotes, downvotes, num_comments, title, post_content, id} = card
   const dispatch = useAppDispatch();
   const activeCard = useAppSelector(selectActiveCard);
@@ -71,20 +71,25 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
     console.log(cardOffsetDistance);
     console.log(`currentDistance ${currentDistance}`);
     if(!card) return;
-    if(currentDistance <= 20){
+    if(currentDistance >= 75){
       console.log('addUpvote');
       dispatch(addUpvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
-    } else if(currentDistance >= 80){
+      setCardOpacity(0);
+    } else if(currentDistance <= 25){
       console.log('addDownvote')
       dispatch(addDownvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
+    } else {
+      onPointerDragStop(event);
+      setCardOffsetDistance('50%');
+      setCardOffsetRotation('0deg');
+      setCardOpacity(1);
     }
     // Reset Card
     onPointerDragStop(event);
     setCardOffsetDistance('50%');
     setCardOffsetRotation('0deg');
-    setCardOpacity(1);
   }
 
   return(
