@@ -37,6 +37,7 @@ export const CardStack = ({ animation }) => {
   },[lowNumberOfCards])
 
   const handelDragStart= (event, clientX, clientY) => {
+    event.target.setPointerCapture(event.pointerId);
     setCardPositioning({
       ...cardPoistioning,
       mouseStartingPosition: {x: clientX, y: clientY}
@@ -44,18 +45,8 @@ export const CardStack = ({ animation }) => {
     console.log(`Event: ${event.type}, x:${clientX}, y:${clientY}`);
   }
 
-  const handelPointerDrag = (clientX, clientY) => {
-    //console.log(`Event: DragStart, mousePosition: x:${clientX}, y:${clientY}; Delta: x:${cardPoistioning.mouseDelta.x}, y ${cardPoistioning.mouseDelta.y}`);
-    const DeltaX = clientX - cardPoistioning.mouseStartingPosition.x;
-    const DeltaY = clientY - cardPoistioning.mouseStartingPosition.y;
-    setCardPositioning({
-      ...cardPoistioning,
-      mouseCurrentPosition: {x: clientX, y: clientY},
-      mouseDelta: {x: DeltaX, y: DeltaY}
-    });
-  }
-
-  const handleDragStop = () => {
+  const handleDragStop = (event) => {
+    event.target.releasePointerCapture(event.pointerId)
     setCardPositioning({
       mouseStartingPosition: {x: null, y:null},
       mouseCurrentPosition: {x: null, y:null},
@@ -69,8 +60,8 @@ export const CardStack = ({ animation }) => {
     return<div>Loading...</div>;
   } else {
     return(
-    <ul className="card-stack">
-      <Card animation={animation} card={activeCard} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDrag={handelPointerDrag} onPointerDragStop={handleDragStop}/>
+    <ul className="card-stack" key={activeCard.id}>
+      <Card animation={animation} card={activeCard} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop}/>
     </ul>
   )
   }
