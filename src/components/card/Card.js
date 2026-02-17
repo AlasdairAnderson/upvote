@@ -14,9 +14,10 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
     if (!content || !content.type) {
       return(<p>No content found</p>)
     }
+    //console.log(content.content);
     switch (content.type) {
       case 'image':
-        return(<img data-testid={'image'} className="card__content" src={content.content}></img>);
+        return(<img loading="lazy" referrerPolicy="no-referrer" data-testid={'image'} className="card__content" src={content.content}></img>);
         break;
       case 'video':
         return (<video data-testid={'video'} className="card__content" controls loop autoPlay={true}>
@@ -68,8 +69,6 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
   const handleOnDragStop = (event) => {
     const card = document.getElementById(id);
     const currentDistance = cardOffsetDistance.substring(0, cardOffsetDistance.length - 1);
-    console.log(cardOffsetDistance);
-    console.log(`currentDistance ${currentDistance}`);
     if(!card) return;
     if(currentDistance >= 75){
       console.log('addUpvote');
@@ -77,7 +76,6 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
       dispatch(deleteVotedCard(activeCard));
       setCardOpacity(0);
     } else if(currentDistance <= 25){
-      console.log('addDownvote')
       dispatch(addDownvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
     } else {

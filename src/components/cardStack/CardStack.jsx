@@ -1,5 +1,5 @@
 import { Card } from '@/components/card/Card'
-import { selectCards, selectActiveCard, fetchCards, updateActiveCard } from "@/lib/features/cards/cardsSlice";
+import { selectCards, selectActiveCard, fetchCards, updateActiveCard, selectListingData } from "@/lib/features/cards/cardsSlice";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import { current } from '@reduxjs/toolkit';
 import React, { act, useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import React, { act, useEffect, useState } from "react";
 export const CardStack = ({ animation }) => {
   const cards  = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
+  const listingData = useAppSelector(selectListingData);
   const [ lowNumberOfCards, setLowNumberOfCards ] = useState(false);
   const dispatch = useAppDispatch();
   const [ redditAPIRequest, setredditAPIRequest ] = useState({ requestType: 'popular', query: '' });
@@ -17,11 +18,11 @@ export const CardStack = ({ animation }) => {
     voteStatus: "none"
   });
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Fetch cards
     dispatch(fetchCards(redditAPIRequest));
   }
-  , [redditAPIRequest]);  
+  , [redditAPIRequest]); */
 
   useEffect(() => {
     dispatch(updateActiveCard(Object.values(cards)[0]));
@@ -32,9 +33,9 @@ export const CardStack = ({ animation }) => {
   
   //If less than 3 cards are remaining within redux
   useEffect(() => {
-    dispatch(fetchCards(redditAPIRequest));
+    dispatch(fetchCards({ redditAPIRequest, listingData }));
     setLowNumberOfCards(false);
-  },[lowNumberOfCards])
+  },[lowNumberOfCards, redditAPIRequest.requestType])
 
   const handelDragStart= (event, clientX, clientY) => {
     event.target.setPointerCapture(event.pointerId);
@@ -42,7 +43,7 @@ export const CardStack = ({ animation }) => {
       ...cardPoistioning,
       mouseStartingPosition: {x: clientX, y: clientY}
     });
-    console.log(`Event: ${event.type}, x:${clientX}, y:${clientY}`);
+    //console.log(`Event: ${event.type}, x:${clientX}, y:${clientY}`);
   }
 
   const handleDragStop = (event) => {
@@ -53,7 +54,7 @@ export const CardStack = ({ animation }) => {
       mouseDelta: {x: 0, y:0},
       voteStatus: "none"
     });
-    console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
+    //console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
   }
 
   if(!cards || activeCard === undefined){

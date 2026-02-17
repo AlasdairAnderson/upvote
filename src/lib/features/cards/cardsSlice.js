@@ -6,30 +6,36 @@ export const fetchCards = createAsyncThunk(
     async (args) => {
         //extract paramerters
         try{
-        const { requestType, query } = args;
+        const { redditAPIRequest, listingData  } = args;
         let path = '';
 
-        
-
-        switch (requestType) {
+        switch (redditAPIRequest.requestType) {
             case 'search':
-                path = `search.json?q=${query}&`;
+                path = `search.json?q=${redditAPIRequest.query}&`;
                 break;
             case 'category':
-                path = `r/${query}.json?`;
+                path = `r/${redditAPIRequest.query}.json?`;
                 break;
             default:
                 path = 'r/popular.json?';
         }    
         
-        const request = await fetch(`/api/reddit?path=${path}`);
+        console.log(listingData)
+        const request = await fetch(`/api/reddit?path=${path}&after=${listingData.after}`);
 
         if(!request.ok){
             throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);
         }
 
         const data = await request.json();
-        const cards = data.data.children.map((child) => {
+        const currentListingData = {
+            after: data.data.after,
+            before: data.data.before,
+            modhash: data.data.modhash,
+            dist: data.data.dist,
+            geo_filter: data.data.geo_filter
+        };
+        const currentCards = data.data.children.map((child) => {
             const content = child.data;
             const totalvotes = Math.round(content.ups / content.upvote_ratio);
             const downvotes = totalvotes - content.ups
@@ -46,12 +52,11 @@ export const fetchCards = createAsyncThunk(
                 totalvotes: totalvotes,
                 post_content: {}
             }
-            
-            if(content.post_hint === 'image' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source){
-                card.post_content.content = content.preview.images[0].source.url;
-                card.post_content.type = 'image';
-            } else if (content.post_hint === 'link' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source) {
-                card.post_content.content = content.preview.images[0].source.url;
+            const isImageType = ['image', 'link'].includes(content.post_hint);
+            const hasImageData = content.preview?.images?.[0]?.source;
+            if(isImageType && hasImageData){
+                const cleanedUrl = content.preview.images[0].source.url.replaceAll("&amp;","&");
+                card.post_content.content = cleanedUrl;
                 card.post_content.type = 'image';
             } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
                 card.post_content.content = content.media.reddit_video.fallback_url;
@@ -61,8 +66,9 @@ export const fetchCards = createAsyncThunk(
                 card.post_content.type = 'text';
             }
             return card;
-        })
-        return Object.values(cards);
+        });
+        const cards = Object.values(currentCards);
+        return { cards, currentListingData };
     } catch(error) {
         console.error('Fetch Error: ', error);
         throw error;
@@ -72,6 +78,12 @@ export const fetchCards = createAsyncThunk(
 const cardsSlice = createSlice({
     name: 'cards',
     initialState: {
+        listingData: {
+            after: null,
+            before: null,
+            geo_filter: null,
+            count: null
+        },
         cards: {},
         upvotedCards: {},
         downvotedCards: {},
@@ -82,17 +94,17 @@ const cardsSlice = createSlice({
     reducers: {
         addUpvote: (state, action) => {
             const { id } = action.payload;
-            state.upvotedCards[id] = action.payload
+            state.upvotedCards[id] = action.payload;
         },
         addDownvote: (state, action) => {
             const { id } = action.payload;
-            state.downvotedCards[id] = action.payload
+            state.downvotedCards[id] = action.payload;
         },
         updateActiveCard: (state, action) => {
             state.activeCard = action.payload;
         },
         deleteVotedCard: (state, action) => {
-            delete state.cards[action.payload.id]
+            delete state.cards[action.payload.id];
         }
     },
     extraReducers: (builder) => {
@@ -106,7 +118,9 @@ const cardsSlice = createSlice({
         }).addCase(fetchCards.fulfilled, (state, action) => {
             state.isLoading = false;
             state.hasError = false;
-            const cards = action.payload;
+            console.log(action.payload);
+            const { cards, currentListingData } = action.payload;
+            state.listingData = currentListingData;
             for(const card of cards) {
                 const { id } = card;
                 state.cards[id] = card;
@@ -122,11 +136,14 @@ export const selectCards = (state) => {
 };
 export const selectActiveCard = (state) => {
     return state.cards.activeCard;
-}
+};
 export const selectUpvotedCards = (state) => {
     return state.cards.upvotedCards;
-}
+};
 export const selectDownvotedCards = (state) => {
     return state.cards.downvotedCards;
-}
+};
+export const selectListingData = (state) => {
+    return state.cards.listingData
+} 
 export default cardsSlice.reducer; 
