@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useSearchParams } from "next/navigation";
 
 // Thunk that can call Reddit API to fetch content
 export const fetchCards = createAsyncThunk(
@@ -7,21 +8,31 @@ export const fetchCards = createAsyncThunk(
         //extract paramerters
         try{
         const { redditAPIRequest, listingData  } = args;
-        let path = '';
+        let queryParams = new URLSearchParams();
 
         switch (redditAPIRequest.requestType) {
             case 'search':
-                path = `search.json?q=${redditAPIRequest.query}&`;
+                queryParams.set("path", 'search.json');
+                queryParams.append("q", redditAPIRequest.query);
+                //path = `search.json?q=${redditAPIRequest.query}&`;
                 break;
             case 'category':
-                path = `r/${redditAPIRequest.query}.json?`;
+                queryParams.set("path", `r/${redditAPIRequest.query}.json`);
+                //path = `r/${redditAPIRequest.query}.json?`;
                 break;
             default:
-                path = 'r/popular.json?';
-        }    
+                queryParams.set("path", 'r/popular.json');
+                //path = 'r/popular.json?';
+        }
+
+        if(listingData.after){
+            queryParams.append("after", listingData.after);
+        }
         
-        console.log(listingData)
-        const request = await fetch(`/api/reddit?path=${path}&after=${listingData.after}`);
+        console.log(queryParams.toString());
+
+        const request = await fetch(`/api/reddit?${queryParams.toString()}`);
+        //const request = await fetch(`/api/reddit?path=${path}&after=${listingData.after}`);
 
         if(!request.ok){
             throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);

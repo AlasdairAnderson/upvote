@@ -2,12 +2,22 @@
 export async function GET(request) {
     try{
         const searchParams = request.nextUrl.searchParams;
-        const path = searchParams.get("path") || "r/popular.json?";
+        const path = searchParams.get("path") || "r/popular.json";
         const after = searchParams.get("after") || null;
-        console.log(searchParams.get("path"))
-        console.log(`https://www.reddit.com/${path}raw_json=1&after=${after}&count=25`)
-        console.log(searchParams.toString())
-        const response = await fetch(`https://www.reddit.com/${path}raw_json=1&after=${after}&count=25`, {
+        const q = searchParams.get("q") || null;
+        const queries = new URLSearchParams({
+            "raw_json": "1",
+            "count": "25"
+        })
+
+        if(after && after != "null"){
+            queries.append("after", after);
+        }
+        if(q && q != "null"){
+            queries.append("q", q);
+        }
+        console.log(`https://www.reddit.com/${path}?${queries.toString()}`);
+        const response = await fetch(`https://www.reddit.com/${path}?${queries.toString()}`, {
             headers: {
                 "User-Agent": "web:upvote/v0.1.0 (by /u/dair661)",
                 "Accept": "application/json",
