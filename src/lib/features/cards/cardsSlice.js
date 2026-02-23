@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useSearchParams } from "next/navigation";
 
 // Thunk that can call Reddit API to fetch content
 export const fetchCards = createAsyncThunk(
@@ -14,15 +13,12 @@ export const fetchCards = createAsyncThunk(
             case 'search':
                 queryParams.set("path", 'search.json');
                 queryParams.append("q", redditAPIRequest.query);
-                //path = `search.json?q=${redditAPIRequest.query}&`;
                 break;
             case 'category':
                 queryParams.set("path", `r/${redditAPIRequest.query}.json`);
-                //path = `r/${redditAPIRequest.query}.json?`;
                 break;
             default:
                 queryParams.set("path", 'r/popular.json');
-                //path = 'r/popular.json?';
         }
 
         if(listingData.after){
@@ -32,13 +28,13 @@ export const fetchCards = createAsyncThunk(
         console.log(queryParams.toString());
 
         const request = await fetch(`/api/reddit?${queryParams.toString()}`);
-        //const request = await fetch(`/api/reddit?path=${path}&after=${listingData.after}`);
 
         if(!request.ok){
             throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);
         }
 
         const data = await request.json();
+        // Data for pagination
         const currentListingData = {
             after: data.data.after,
             before: data.data.before,
@@ -46,6 +42,7 @@ export const fetchCards = createAsyncThunk(
             dist: data.data.dist,
             geo_filter: data.data.geo_filter
         };
+        // Card Data
         const currentCards = data.data.children.map((child) => {
             const content = child.data;
             const totalvotes = Math.round(content.ups / content.upvote_ratio);

@@ -34,7 +34,7 @@ export async function GET(request) {
                     headers,
                     body: respText
                 });
-                throw new Error(`Reddit API error: ${response.status} for path https://www.reddit.com/${path}&raw_json=1 - ${respText}`)
+                throw new Error(`Reddit API error: ${response.status} for path https://www.reddit.com/${path}?${queires.toSting()} - ${respText}`)
         }
 
         const data = await response.json();
