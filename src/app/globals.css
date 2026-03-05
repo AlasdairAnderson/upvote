@@ -19,7 +19,9 @@
   }
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -38,10 +40,10 @@ body {
 }
 
 header {
- /* position: absolute; */
- margin: 0;
- width: 100%;
- height: 10%;
+  /* position: absolute; */
+  margin: 0;
+  width: 100%;
+  height: 10%;
 }
 
 /* Logo start */
@@ -58,7 +60,7 @@ header {
 .logo h1 {
   padding-left: 0.2em;
   font-size: 2em;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   color: #FF4500;
 }
 
@@ -73,7 +75,7 @@ main {
   justify-content: space-between;
 }
 
-.voting-sections{
+.voting-sections {
   display: flex;
   align-content: center;
   justify-content: center;
@@ -82,7 +84,7 @@ main {
 }
 
 .section {
-  width:33%;
+  width: 33%;
 }
 
 .card-stack {
@@ -93,7 +95,7 @@ main {
   position: relative;
   width: 100%;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .card-stack__item {
@@ -101,12 +103,11 @@ main {
   align-content: center;
   justify-content: center;
   border-radius: 20px;
-  position:absolute;
-  top:50%;
+  position: absolute;
+  top: 50%;
   left: 50%;
-  offset-path: path(
-    "M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30"
-  );
+  offset-path: path("M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30"
+    );
   offset-distance: 50%;
   animation: card-load 1s forwards;
 }
@@ -124,13 +125,16 @@ main {
     offset-rotate: 0deg;
     offset-distance: 50%;
   }
+
   20% {
-    opacity:100%;
+    opacity: 100%;
   }
+
   70% {
     opacity: 0%;
   }
-  100%{
+
+  100% {
     offset-rotate: -20deg;
     offset-distance: 0%;
     opacity: 0%;
@@ -138,16 +142,19 @@ main {
 }
 
 @keyframes upvote {
-  0%{
+  0% {
     offset-rotate: 0deg;
     offset-distance: 50%;
   }
+
   20% {
     opacity: 100%;
   }
+
   70% {
     opacity: 0%;
   }
+
   100% {
     offset-rotate: 20deg;
     offset-distance: 100%;
@@ -159,6 +166,7 @@ main {
   0% {
     opacity: 0%;
   }
+
   100% {
     opacity: 100%;
   }
@@ -176,12 +184,12 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
 
 .card__content {
   bottom: 0;
-  filter:brightness(100%);
+  filter: brightness(100%);
   left: 0;
   position: absolute;
   border-top-right-radius: 20px;
@@ -213,7 +221,7 @@ main {
   pointer-events: none;
 }
 
-.card__information h2{
+.card__information h2 {
   color: #000;
   display: inline-block;
   font-weight: 300;
@@ -235,7 +243,8 @@ main {
 .card__information__footer__info {
   display: flex;
   align-content: center;
-  justify-content: center;;
+  justify-content: center;
+  ;
 }
 
 .card__information__footer__info img {
@@ -247,28 +256,29 @@ main {
 }
 
 /* card stats end */
-  .stats {
-    display: flex;
-    align-items: center;
-  }
+.stats {
+  display: flex;
+  align-items: center;
+}
 
-  .stats img {
-    padding: 5px;
-  }
+.stats img {
+  padding: 5px;
+}
 
-  .progress-bar {
-    display: flex;
-    height: 20px;
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    overflow: hidden;
-  }
+.progress-bar {
+  display: flex;
+  height: 20px;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
 
-  .progress-segment {
-    height: 100%;
-    transition: width 0.3s ease;
-  }
+.progress-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
 /* Card end */
 
 /* Footer start */
@@ -294,10 +304,24 @@ button:disabled {
   opacity: 0.5;
 }
 
-#user {
-  border-radius: 50px;
-  height: 40px;
-  width: 40px;
+#categories_menu-icon {
+  background-color: #fff;
+}
+
+.category-menu {
+  color: #000;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: height 1s, opacity 1s;
+}
+
+.category-menu-item {}
+
+#visible {
+  height: 200px;
+  opacity: 100;
+  pointer-events: all;
 }
 
 /* Footer end */
