@@ -30,9 +30,9 @@ export const Menu = ({ setAnimation, animation }) => {
     }
 
     return (
-        <>
+        <div className="menus">
             <menu className="category-menu" id={isMenuVisible ? "visible" : ""}>
-                <li className="category-menu-item"><button>Popular</button></li>
+                <li className="category-menu-item"><button><img src="/popularIcon.svg"></img>Popular</button></li>
                 <li className="category-menu-item"><button>Humor</button></li>
                 <li className="category-menu-item"><button>Questions</button></li>
                 <li className="category-menu-item"><button>Inspiration</button></li>
@@ -43,6 +43,6 @@ export const Menu = ({ setAnimation, animation }) => {
                 <li><button onClick={onClickUpvote} disabled={animation != "" ? true : false}><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content" /></button></li>
                 <li><img id="search" src="/searchIcon.svg" alt="search icon" /></li>
             </menu>
-        </>
+        </div>
     )
 }
