@@ -33,9 +33,9 @@ export const Menu = ({ setAnimation, animation }) => {
         <div className="menus">
             <menu className="category-menu" id={isMenuVisible ? "visible" : ""}>
                 <li className="category-menu-item"><button><img src="/popularIcon.svg"></img>Popular</button></li>
-                <li className="category-menu-item"><button>Humor</button></li>
-                <li className="category-menu-item"><button>Questions</button></li>
-                <li className="category-menu-item"><button>Inspiration</button></li>
+                <li className="category-menu-item"><button><img src="/humorIcon.svg" />Humor</button></li>
+                <li className="category-menu-item"><button><img src="/questionIcon.svg" />Questions</button></li>
+                <li className="category-menu-item"><button><img src="/inspirationIcon.svg" />Inspiration</button></li>
             </menu>
             <menu className="menu">
                 <li><button onClick={() => setIsMenuVisible(currentMenuVisibility => !currentMenuVisibility)}><img id="category-menu-icon" src="/category_menu.svg" alt="category menu" /></button></li>

@@ -327,13 +327,12 @@ button:disabled {
   border: #171717 solid 2px;
   border-radius: 5px;
   margin: 0 10px;
+  overflow-y: hidden;
 }
 
 .category-menu-item {
-  height: 0px;
   padding: 5px;
   text-align: left;
-  transition: height 0.001s;
 }
 
 .category-menu-item button {
@@ -351,10 +350,6 @@ button:disabled {
   opacity: 100;
   pointer-events: all;
   margin: 10px;
-}
-
-#visible .category-menu-item {
-  height: fit-content;
 }
 
 /* Footer end */
