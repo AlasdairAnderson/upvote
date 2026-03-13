@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useState } from "react";
 
 
-export const Menu = ({ setAnimation, animation }) => {
+export const Menu = ({ setAnimation, animation, setRedditAPIRequest }) => {
     const cards = useAppSelector(selectCards);
     const downvotedCards = useAppSelector(selectDownvotedCards);
     const upvotedCards = useAppSelector(selectUpvotedCards);
@@ -32,10 +32,10 @@ export const Menu = ({ setAnimation, animation }) => {
     return (
         <div className="menus">
             <menu className="category-menu" id={isMenuVisible ? "visible" : ""}>
-                <li className="category-menu-item"><button><img src="/popularIcon.svg"></img>Popular</button></li>
-                <li className="category-menu-item"><button><img src="/humorIcon.svg" />Humor</button></li>
-                <li className="category-menu-item"><button><img src="/questionIcon.svg" />Questions</button></li>
-                <li className="category-menu-item"><button><img src="/inspirationIcon.svg" />Inspiration</button></li>
+                <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/popular', newRequest: true }) }}><img src="/popularIcon.svg" />Popular</button></li>
+                <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/funny', newRequest: true }) }}><img src="/humorIcon.svg" />Humor</button></li>
+                <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/AskReddit', newRequest: true }) }}><img src="/questionIcon.svg" />Questions</button></li>
+                <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/interestingasfuck', newRequest: true }) }}><img src="/inspirationIcon.svg" />Inspiration</button></li>
             </menu>
             <menu className="menu">
                 <li><button onClick={() => setIsMenuVisible(currentMenuVisibility => !currentMenuVisibility)}><img id="category-menu-icon" src="/category_menu.svg" alt="category menu" /></button></li>
