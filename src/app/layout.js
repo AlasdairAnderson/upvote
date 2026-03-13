@@ -1,24 +1,7 @@
-
-//import { Geist, Geist_Mono, ZCOOL_QingKe_HuangYou } from "next/font/google";
 import React from 'react';
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
-/*const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const zcoolQuingKeHaugYou = ZCOOL_QingKe_HuangYou({
-  variable: "--font-zcool-qingke-huangyou",
-  subsets: ["latin"],
-  weight: '400'
-}) */
 
 export const metadata = {
   title: "Upvote",
@@ -30,10 +13,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <StoreProvider children={children}>
-        <header className="logo">
-        <img src="/upvotelogo.svg" alt="upvote logo"/>
-        <h1>UPVOTE</h1>
-        </header>
+          <header className="logo">
+            <img src="/upvotelogo.svg" alt="upvote logo" />
+            <h1>UPVOTE</h1>
+          </header>
           {children}
         </StoreProvider>
       </body>

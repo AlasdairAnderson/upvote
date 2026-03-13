@@ -2,15 +2,28 @@
 export async function GET(request) {
     try{
         const searchParams = request.nextUrl.searchParams;
-        const path = searchParams.get("path") || "r/popular.json?";
+        const path = searchParams.get("path") || "r/popular.json";
+        const after = searchParams.get("after") || null;
+        const q = searchParams.get("q") || null;
+        const queries = new URLSearchParams({
+            "raw_json": "1",
+            "count": "25"
+        })
 
-            const response = await fetch(`https://www.reddit.com/${path}&raw_json=1`, {
-                headers: {
-                    "User-Agent": "web:upvote/v0.1.0 (by /u/dair66)",
-                    "Accept": "application/json",
-                    "Accept-Language": "en-US"
-                }
-            });
+        if(after && after != "null"){
+            queries.append("after", after);
+        }
+        if(q && q != "null"){
+            queries.append("q", q);
+        }
+        console.log(`https://www.reddit.com/${path}?${queries.toString()}`);
+        const response = await fetch(`https://www.reddit.com/${path}?${queries.toString()}`, {
+            headers: {
+                "User-Agent": "web:upvote/v0.1.0 (by /u/dair661)",
+                "Accept": "application/json",
+                "Accept-Language": "en-US"
+            }
+        });
         
         if(!response.ok) {
                 const respText = await response.text();
@@ -21,7 +34,7 @@ export async function GET(request) {
                     headers,
                     body: respText
                 });
-                throw new Error(`Reddit API error: ${response.status} for path https://www.reddit.com/${path}&raw_json=1 - ${respText}`)
+                throw new Error(`Reddit API error: ${response.status} for path https://www.reddit.com/${path}?${queires.toSting()} - ${respText}`)
         }
 
         const data = await response.json();

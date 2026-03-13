@@ -5,73 +5,95 @@ export const fetchCards = createAsyncThunk(
     'cards/fetchCards',
     async (args) => {
         //extract paramerters
-        try{
-        const { requestType, query } = args;
-        let path = '';
+        try {
+            const { redditAPIRequest, listingData } = args;
+            let queryParams = new URLSearchParams();
+            const newRequest = redditAPIRequest.newRequest;
 
-        
+            switch (redditAPIRequest.requestType) {
+                case 'search':
+                    queryParams.set("path", 'search.json');
+                    queryParams.append("q", redditAPIRequest.query);
+                    break;
+                case 'category':
+                    queryParams.set("path", `${redditAPIRequest.query}.json`);
+                    break;
+                default:
+                    queryParams.set("path", 'r/popular.json');
+            }
 
-        switch (requestType) {
-            case 'search':
-                path = `search.json?q=${query}&`;
-                break;
-            case 'category':
-                path = `r/${query}.json?`;
-                break;
-            default:
-                path = 'r/popular.json?';
-        }    
-        
-        const request = await fetch(`/api/reddit?path=${path}`);
+            if (listingData.after) {
+                queryParams.append("after", listingData.after);
+            }
 
-        if(!request.ok){
-            throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);
+            console.log(queryParams.toString());
+
+            const request = await fetch(`/api/reddit?${queryParams.toString()}`);
+
+            if (!request.ok) {
+                throw new Error(`HTTP error! status: ${request.status}\n Message: ${request.statusText}`);
+            }
+
+            const data = await request.json();
+            // Data for pagination
+            const currentListingData = {
+                after: data.data.after,
+                before: data.data.before,
+                modhash: data.data.modhash,
+                dist: data.data.dist,
+                geo_filter: data.data.geo_filter
+            };
+            // Card Data
+            const currentCards = data.data.children.map((child) => {
+                const content = child.data;
+                const totalvotes = Math.round(content.ups / content.upvote_ratio);
+                const downvotes = totalvotes - content.ups
+                const card = {
+                    id: content.id,
+                    author: content.author,
+                    author_flair_background_color: content.author_flair_background_color,
+                    upvotes: content.ups,
+                    downvotes: downvotes,
+                    num_comments: content.num_comments,
+                    title: content.title,
+                    subreddit_name_prefixed: content.subreddit_name_prefixed,
+                    subreddit_id: content.subreddit_id,
+                    totalvotes: totalvotes,
+                    post_content: {}
+                }
+                const isImageType = ['image', 'link'].includes(content.post_hint);
+                const hasImageData = content.preview?.images?.[0]?.source;
+                if (isImageType && hasImageData) {
+                    const cleanedUrl = content.preview.images[0].source.url.replaceAll("&amp;", "&");
+                    card.post_content.content = cleanedUrl;
+                    card.post_content.type = 'image';
+                } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
+                    card.post_content.content = content.media.reddit_video.fallback_url;
+                    card.post_content.type = 'video';
+                } else {
+                    card.post_content.content = content.selftext || '';
+                    card.post_content.type = 'text';
+                }
+                return card;
+            });
+            const cards = Object.values(currentCards);
+            return { cards, currentListingData, newRequest };
+        } catch (error) {
+            console.error('Fetch Error: ', error);
+            throw error;
         }
-
-        const data = await request.json();
-        const cards = data.data.children.map((child) => {
-            const content = child.data;
-            const totalvotes = Math.round(content.ups / content.upvote_ratio);
-            const downvotes = totalvotes - content.ups
-            const card = {
-                id: content.id,
-                author: content.author,
-                author_flair_background_color: content.author_flair_background_color,
-                upvotes: content.ups,
-                downvotes: downvotes,
-                num_comments: content.num_comments,
-                title: content.title,
-                subreddit_name_prefixed: content.subreddit_name_prefixed,
-                subreddit_id: content.subreddit_id,
-                totalvotes: totalvotes,
-                post_content: {}
-            }
-            
-            if(content.post_hint === 'image' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source){
-                card.post_content.content = content.preview.images[0].source.url;
-                card.post_content.type = 'image';
-            } else if (content.post_hint === 'link' && content.preview && Array.isArray(content.preview.images) && content.preview.images.length > 0 && content.preview.images[0].source) {
-                card.post_content.content = content.preview.images[0].source.url;
-                card.post_content.type = 'image';
-            } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
-                card.post_content.content = content.media.reddit_video.fallback_url;
-                card.post_content.type = 'video';   
-            } else {
-                card.post_content.content = content.selftext || '';
-                card.post_content.type = 'text';
-            }
-            return card;
-        })
-        return Object.values(cards);
-    } catch(error) {
-        console.error('Fetch Error: ', error);
-        throw error;
-    }}
+    }
 )
 
 const cardsSlice = createSlice({
     name: 'cards',
     initialState: {
+        listingData: {
+            after: null,
+            before: null,
+            geo_filter: null,
+            count: null
+        },
         cards: {},
         upvotedCards: {},
         downvotedCards: {},
@@ -82,17 +104,17 @@ const cardsSlice = createSlice({
     reducers: {
         addUpvote: (state, action) => {
             const { id } = action.payload;
-            state.upvotedCards[id] = action.payload
+            state.upvotedCards[id] = action.payload;
         },
         addDownvote: (state, action) => {
             const { id } = action.payload;
-            state.downvotedCards[id] = action.payload
+            state.downvotedCards[id] = action.payload;
         },
         updateActiveCard: (state, action) => {
             state.activeCard = action.payload;
         },
         deleteVotedCard: (state, action) => {
-            delete state.cards[action.payload.id]
+            delete state.cards[action.payload.id];
         }
     },
     extraReducers: (builder) => {
@@ -106,11 +128,23 @@ const cardsSlice = createSlice({
         }).addCase(fetchCards.fulfilled, (state, action) => {
             state.isLoading = false;
             state.hasError = false;
-            const cards = action.payload;
-            for(const card of cards) {
+            console.log(action.payload);
+            const { cards, currentListingData, newRequest } = action.payload;
+            state.listingData = currentListingData;
+            if (newRequest) {
+                state.cards = {};
+                state.listingData = {
+                    after: null,
+                    before: null,
+                    geo_filter: null,
+                    count: null
+                }
+            }
+            for (const card of cards) {
                 const { id } = card;
                 state.cards[id] = card;
             }
+
         })
     }
 })
@@ -122,11 +156,14 @@ export const selectCards = (state) => {
 };
 export const selectActiveCard = (state) => {
     return state.cards.activeCard;
-}
+};
 export const selectUpvotedCards = (state) => {
     return state.cards.upvotedCards;
-}
+};
 export const selectDownvotedCards = (state) => {
     return state.cards.downvotedCards;
+};
+export const selectListingData = (state) => {
+    return state.cards.listingData
 }
 export default cardsSlice.reducer; 
