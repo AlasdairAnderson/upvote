@@ -30,19 +30,17 @@ export const Menu = ({ setAnimation, animation, setRedditAPIRequest }) => {
     }
 
     return (
-        <div className="menus">
+        <menu className="menu">
             <menu className="category-menu" id={isMenuVisible ? "visible" : ""}>
                 <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/popular', newRequest: true }) }}><img src="/popularIcon.svg" />Popular</button></li>
                 <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/funny', newRequest: true }) }}><img src="/humorIcon.svg" />Humor</button></li>
                 <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/AskReddit', newRequest: true }) }}><img src="/questionIcon.svg" />Questions</button></li>
                 <li className="category-menu-item"><button onClick={() => { setRedditAPIRequest({ requestType: 'category', query: 'r/interestingasfuck', newRequest: true }) }}><img src="/inspirationIcon.svg" />Inspiration</button></li>
             </menu>
-            <menu className="menu">
-                <li><button onClick={() => setIsMenuVisible(currentMenuVisibility => !currentMenuVisibility)}><img id="category-menu-icon" src="/category_menu.svg" alt="category menu" /></button></li>
-                <li><button onClick={onClickDownvote} disabled={animation != "" ? true : false}><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet" /></button></li>
-                <li><button onClick={onClickUpvote} disabled={animation != "" ? true : false}><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content" /></button></li>
-                <li><img id="search" src="/searchIcon.svg" alt="search icon" /></li>
-            </menu>
-        </div>
+            <li><button id="menu-item-category" onClick={() => setIsMenuVisible(currentMenuVisibility => !currentMenuVisibility)}><img id="category-menu-icon" src="/category_menu.svg" alt="category menu" /></button></li>
+            <li><button onClick={onClickDownvote} disabled={animation != "" ? true : false}><img id="downvote" src="/DownvoteIcon.svg" alt="Downvote Contnet" /></button></li>
+            <li><button onClick={onClickUpvote} disabled={animation != "" ? true : false}><img id="upvote" src="/UpvoteIcon.svg" alt="Upvote Content" /></button></li>
+            <li><img id="search" src="/searchIcon.svg" alt="search icon" /></li>
+        </menu>
     )
 }
