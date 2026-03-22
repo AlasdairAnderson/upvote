@@ -355,21 +355,36 @@ button:disabled {
   position-anchor: --search-menu;
   bottom: anchor(top);
   right: anchor(right);
-  height: 24px;
+  margin-bottom: 5px;
+}
+
+.search-form button {
+  position: relative;
+  background-color: #FF4500;
+  border-radius: 5px;
+  padding: 0 2px;
 }
 
 .search-menu {
   border: #000 2px solid;
-  height: 24px;
+  border-radius: 5px;
+  height: auto;
   background-color: white;
   color: #000;
 }
 
 #visible {
-  height: 200px;
   opacity: 100;
   pointer-events: all;
   margin: 0;
+}
+
+#visible.category-menu {
+  height: 200px;
+}
+
+#visible.search-form {
+  height: 30px;
 }
 
 /* Footer end */
