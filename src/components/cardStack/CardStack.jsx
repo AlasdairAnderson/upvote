@@ -1,5 +1,5 @@
 import { Card } from '@/components/card/Card'
-import { selectCards, selectActiveCard, fetchCards, updateActiveCard, selectListingData } from "@/lib/features/cards/cardsSlice";
+import { selectCards, selectActiveCard, fetchCards, updateActiveCard, selectListingData, selectLoadingState, selectErrorState } from "@/lib/features/cards/cardsSlice";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import { current } from '@reduxjs/toolkit';
 import React, { act, useEffect, useState } from "react";
@@ -8,6 +8,8 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
   const cards = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
   const listingData = useAppSelector(selectListingData);
+  const loadingState = useAppSelector(selectLoadingState);
+  const errorState = useAppSelector(selectErrorState);
   const [lowNumberOfCards, setLowNumberOfCards] = useState(false);
   const dispatch = useAppDispatch();
   const [cardPoistioning, setCardPositioning] = useState({
@@ -51,11 +53,19 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
       mouseDelta: { x: 0, y: 0 },
       voteStatus: "none"
     });
-    //console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
   }
 
+  // If no cards are found
   if (!cards || activeCard === undefined) {
-    return <div>Loading...</div>;
+    return (
+      <ul className="card-stack">
+        <Card />
+      </ul>
+    );
+  } else if (loadingState) {
+    return <div>cards are loading</div>;
+  } else if (errorState) {
+    return <div>There is an error</div>;
   } else {
     return (
       <ul className="card-stack" key={activeCard.id}>

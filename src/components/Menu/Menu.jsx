@@ -33,8 +33,13 @@ export const Menu = ({ setAnimation, animation, setRedditAPIRequest }) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        setRedditAPIRequest({ requestType: 'search', query: searchTerm, newRequest: true });
-        setSearchTerm("");
+        if (searchTerm !== "") {
+            setRedditAPIRequest({ requestType: 'search', query: searchTerm, newRequest: true });
+            setSearchTerm("");
+            setIsSearchMenuVisible(false);
+        } else {
+            console.log('No search input')
+        }
     }
 
     return (

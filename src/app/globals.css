@@ -173,6 +173,11 @@ main {
 }
 
 /* Card start */
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
 
 .card {
   user-select: none;

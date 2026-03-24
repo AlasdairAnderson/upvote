@@ -166,4 +166,10 @@ export const selectDownvotedCards = (state) => {
 export const selectListingData = (state) => {
     return state.cards.listingData
 }
+export const selectLoadingState = (state) => {
+    return state.cards.isLoading
+}
+export const selectErrorState = (state) => {
+    return state.cards.hasError
+}
 export default cardsSlice.reducer; 
