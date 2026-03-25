@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
@@ -30,10 +30,10 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
         break;
       case 'error':
         return (
-          <>
+          <div className="card__content error_content">
             <p className="card__contnet">{content.content}</p>
-            <button onClick={() => setRedditAPIRequest({ requestType: 'popular', query: '', newRequest: true })}>Return to Safety</button>
-          </>
+            <button className="escape_error" onClick={() => setRedditAPIRequest({ requestType: 'popular', query: '', newRequest: true })}>Return to Safety</button>
+          </div>
         )
       default:
         return (<p data-testid={'no content'} className="card__content">Content Type Not Supported</p>);
@@ -78,7 +78,6 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
     const currentDistance = cardOffsetDistance.substring(0, cardOffsetDistance.length - 1);
     if (!card) return;
     if (currentDistance >= 75) {
-      console.log('addUpvote');
       dispatch(addUpvote(activeCard));
       dispatch(deleteVotedCard(activeCard));
       setCardOpacity(0);
@@ -99,7 +98,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
 
   return (
     <li id={id} data-testid="card" style={{ offsetDistance: cardOffsetDistance, offsetRotate: cardOffsetRotation }} onPointerDown={(event) => { onPointerDragStart(event, event.clientX, event.clientY) }} onPointerMove={(event) => { currentOffset(event.clientX); }} onPointerUp={(event) => { handleOnDragStop(event) }} onTouchStart={(event) => { onPointerDragStart(event, event.touches[0].clientX, event.touches[0].clientY) }} onTouchMove={(event) => { currentOffset(event.touches[0].clientX); }} onTouchEnd={(event) => { handleOnDragStop(event) }} className={`card-stack__item ${animation}`}>
-      <section className="card" style={{ opacity: cardOpacity }}>
+      <section className={`card ${post_content.type === 'error' ? 'error' : ''}`} style={{ opacity: cardOpacity }}>
         {contentType(post_content)}
         <div className="card__information">
           <h2>{title}</h2>

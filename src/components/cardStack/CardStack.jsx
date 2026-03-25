@@ -56,7 +56,7 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
   }
 
   // If no cards are found
-  if (!cards || activeCard === undefined) {
+  if (!cards || activeCard === undefined && loadingState === false) {
     const cardErrorInfo = {
       id: '0000',
       upvotes: 0,
@@ -69,14 +69,44 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
       }
     }
     return (
-      <ul className="card-stack" >
-        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} setRedditAPIRequest={setRedditAPIRequest} />
+      <ul className="card-stack">
+        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} setRedditAPIRequest={setRedditAPIRequest} />
+      </ul>
+    );
+  } else if (errorState) {
+    const cardErrorInfo = {
+      id: '0001',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'An error has occured',
+      post_content: {
+        content: 'Issue getting posts from Reddit',
+        type: 'error'
+      }
+    }
+    return (
+      <ul className="card-stack">
+        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} setRedditAPIRequest={setRedditAPIRequest} />
       </ul>
     );
   } else if (loadingState) {
-    return <div>cards are loading</div>;
-  } else if (errorState) {
-    return <div>There is an error</div>;
+    const loadingInfo = {
+      id: '0002',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'Loading posts',
+      post_content: {
+        content: 'Just getting you some Reddit Posts',
+        type: 'loading'
+      }
+    }
+    return (
+      <ul className="card-stack">
+        <Card animation={animation} card={loadingInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} />
+      </ul>
+    );
   } else {
     return (
       <ul className="card-stack" key={activeCard.id}>

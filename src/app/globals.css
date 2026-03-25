@@ -260,6 +260,26 @@ main {
   margin: 0 5px;
 }
 
+.error {
+  background: #FF4500;
+}
+
+.error_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.escape_error {
+  padding: 10px;
+  color: #000;
+  background: #e0e0e0;
+  border: 1px #e0e0e0 solid;
+  border-radius: 5px;
+  width: fit-content;
+}
+
 /* card stats end */
 .stats {
   display: flex;
