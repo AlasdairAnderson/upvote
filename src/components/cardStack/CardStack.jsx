@@ -57,9 +57,20 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
 
   // If no cards are found
   if (!cards || activeCard === undefined) {
+    const cardErrorInfo = {
+      id: '0000',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'An error has occured',
+      post_content: {
+        content: 'No posts could be found',
+        type: 'error'
+      }
+    }
     return (
-      <ul className="card-stack">
-        <Card />
+      <ul className="card-stack" >
+        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} setRedditAPIRequest={setRedditAPIRequest} />
       </ul>
     );
   } else if (loadingState) {
