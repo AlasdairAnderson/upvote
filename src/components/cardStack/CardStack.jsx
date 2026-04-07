@@ -1,5 +1,5 @@
 import { Card } from '@/components/card/Card'
-import { selectCards, selectActiveCard, fetchCards, updateActiveCard, selectListingData } from "@/lib/features/cards/cardsSlice";
+import { selectCards, selectActiveCard, fetchCards, updateActiveCard, selectListingData, selectLoadingState, selectErrorState } from "@/lib/features/cards/cardsSlice";
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 import { current } from '@reduxjs/toolkit';
 import React, { act, useEffect, useState } from "react";
@@ -8,6 +8,8 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
   const cards = useAppSelector(selectCards);
   const activeCard = useAppSelector(selectActiveCard);
   const listingData = useAppSelector(selectListingData);
+  const loadingState = useAppSelector(selectLoadingState);
+  const errorState = useAppSelector(selectErrorState);
   const [lowNumberOfCards, setLowNumberOfCards] = useState(false);
   const dispatch = useAppDispatch();
   const [cardPoistioning, setCardPositioning] = useState({
@@ -51,11 +53,60 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
       mouseDelta: { x: 0, y: 0 },
       voteStatus: "none"
     });
-    //console.log(`handleDragStop ${cardPoistioning.mouseDelta.x}`)
   }
 
-  if (!cards || activeCard === undefined) {
-    return <div>Loading...</div>;
+  // If no cards are found
+  if (!cards || activeCard === undefined && loadingState === false) {
+    const cardErrorInfo = {
+      id: '0000',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'An error has occured',
+      post_content: {
+        content: 'No posts could be found',
+        type: 'error'
+      }
+    }
+    return (
+      <ul className="card-stack">
+        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} setRedditAPIRequest={setRedditAPIRequest} />
+      </ul>
+    );
+  } else if (errorState) {
+    const cardErrorInfo = {
+      id: '0001',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'An error has occured',
+      post_content: {
+        content: 'Issue getting posts from Reddit',
+        type: 'error'
+      }
+    }
+    return (
+      <ul className="card-stack">
+        <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} setRedditAPIRequest={setRedditAPIRequest} />
+      </ul>
+    );
+  } else if (loadingState && !cards || activeCard === undefined) {
+    const loadingInfo = {
+      id: '0002',
+      upvotes: 0,
+      downvotes: 0,
+      num_comments: 0,
+      title: 'Loading posts',
+      post_content: {
+        content: 'Just getting you some Reddit Posts',
+        type: 'loading'
+      }
+    }
+    return (
+      <ul className="card-stack">
+        <Card animation={animation} card={loadingInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} />
+      </ul>
+    );
   } else {
     return (
       <ul className="card-stack" key={activeCard.id}>
