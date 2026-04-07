@@ -132,15 +132,14 @@ const cardsSlice = createSlice({
             state.hasError = false;
             console.log(action.payload);
             const { cards, currentListingData, newRequest } = action.payload;
-            state.listingData = currentListingData;
+            state.listingData = {
+                after: currentListingData.after,
+                before: currentListingData.before,
+                geo_filter: currentListingData.geo_filter,
+                count: Object.values(cards).length
+            }
             if (newRequest) {
                 state.cards = {};
-                state.listingData = {
-                    after: null,
-                    before: null,
-                    geo_filter: null,
-                    count: null
-                }
             }
             for (const card of cards) {
                 const { id } = card;
