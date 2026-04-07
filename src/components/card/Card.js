@@ -17,16 +17,16 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
     //console.log(content.content);
     switch (content.type) {
       case 'image':
-        return (<img loading="lazy" referrerPolicy="no-referrer" data-testid={'image'} className="card__content" src={content.content}></img>);
+        return (<img loading="lazy" referrerPolicy="no-referrer" data-testid={'image'} className="card__content image" src={content.content}></img>);
         break;
       case 'video':
-        return (<video data-testid={'video'} className="card__content" controls loop autoPlay={true}>
+        return (<video data-testid={'video'} className="card__content video" controls loop autoPlay={true}>
           <source src={content.content} type="video/mp4" />
           Your browser does not support the video tag
         </video>);
         break;
       case 'text':
-        return (<p data-testid={'text'} className="card__content">{content.content}</p>);
+        return (<p data-testid={'text'} className="card__content text">{content.content}</p>);
         break;
       case 'error':
         return (
@@ -98,7 +98,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
 
   return (
     <li id={id} data-testid="card" style={{ offsetDistance: cardOffsetDistance, offsetRotate: cardOffsetRotation }} onPointerDown={(event) => { onPointerDragStart(event, event.clientX, event.clientY) }} onPointerMove={(event) => { currentOffset(event.clientX); }} onPointerUp={(event) => { handleOnDragStop(event) }} onTouchStart={(event) => { onPointerDragStart(event, event.touches[0].clientX, event.touches[0].clientY) }} onTouchMove={(event) => { currentOffset(event.touches[0].clientX); }} onTouchEnd={(event) => { handleOnDragStop(event) }} className={`card-stack__item ${animation}`}>
-      <section className={`card ${post_content.type === 'error' ? 'error' : ''}`} style={{ opacity: cardOpacity }}>
+      <section className={`card`} style={{ opacity: cardOpacity }}>
         {contentType(post_content)}
         <div className="card__information">
           <h2>{title}</h2>

@@ -44,7 +44,7 @@ export const fetchCards = createAsyncThunk(
                 geo_filter: data.data.geo_filter
             };
             // Card Data
-            const currentCards = data.data.children.map((child) => {
+            const currentCards = data.data.children.filter(child => ['image', 'link', 'self', 'hosted:video'].includes(child.data.post_hint)).map((child) => {
                 const content = child.data;
                 const totalvotes = Math.round(content.ups / content.upvote_ratio);
                 const downvotes = totalvotes - content.ups
@@ -61,17 +61,19 @@ export const fetchCards = createAsyncThunk(
                     totalvotes: totalvotes,
                     post_content: {}
                 }
-                const isImageType = ['image', 'link'].includes(content.post_hint);
+
+                const isImageType = ['image', 'link', 'self'].includes(content.post_hint);
                 const hasImageData = content.preview?.images?.[0]?.source;
+                const isVideoType = ['hosted:video'].includes(content.post_hint);
                 if (isImageType && hasImageData) {
                     const cleanedUrl = content.preview.images[0].source.url.replaceAll("&amp;", "&");
                     card.post_content.content = cleanedUrl;
                     card.post_content.type = 'image';
-                } else if (content.post_hint === 'hosted:video' && content.media && content.media.reddit_video) {
+                } else if (isVideoType && content.media.reddit_video) {
                     card.post_content.content = content.media.reddit_video.fallback_url;
                     card.post_content.type = 'video';
                 } else {
-                    card.post_content.content = content.selftext || '';
+                    card.post_content.content = 'Content Could Not Be Found';
                     card.post_content.type = 'text';
                 }
                 return card;

@@ -90,7 +90,7 @@ export const CardStack = ({ animation, redditAPIRequest, setRedditAPIRequest }) 
         <Card animation={animation} card={cardErrorInfo} cardPoistioning={cardPoistioning} onPointerDragStart={handelDragStart} onPointerDragStop={handleDragStop} setRedditAPIRequest={setRedditAPIRequest} />
       </ul>
     );
-  } else if (loadingState) {
+  } else if (loadingState && !cards || activeCard === undefined) {
     const loadingInfo = {
       id: '0002',
       upvotes: 0,

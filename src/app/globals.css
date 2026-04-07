@@ -1,22 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #CCFBFE;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #CCFBFE;
-    --foreground: #ededed;
-  }
+  /*Colour Definition*/
+  --offWhite: #F4F5F7;
+  --pureWhite: #FFFFFF;
+  --glass: rgba(255, 255, 255, 0.9);
+  --darkBlue: #172B4D;
+  --lightBlue: #6B778C;
+  /*Intention Defintion*/
+  --titleFont: "Oswald", sans-serif;
+  --postFont: "Montserrat", sans-serif;
+  --background: var(--offWhite);
+  --cardBackground: var(--pureWhite);
+  --navBackground: var(--glass);
+  --titleFontColour: var(--darkBlue);
+  --textFontColour: var(--lightBlue);
 }
 
 *,
@@ -35,8 +34,17 @@ body {
   width: 100vw;
   height: 100%;
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--textFontColour);
+}
+
+h1,
+h2 {
+  font-family: var(--titleFont);
+  color: var(--titleFontColour);
+}
+
+p {
+  font-family: var(--postFont);
 }
 
 header {
@@ -60,7 +68,7 @@ header {
 .logo h1 {
   padding-left: 0.2em;
   font-size: 2em;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: var(--titleFont);
   color: #FF4500;
 }
 
@@ -73,18 +81,6 @@ main {
   flex-direction: column;
   display: flex;
   justify-content: space-between;
-}
-
-.voting-sections {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.section {
-  width: 33%;
 }
 
 .card-stack {
@@ -106,9 +102,9 @@ main {
   position: absolute;
   top: 50%;
   left: 50%;
-  offset-path: path("M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30"
-    );
+  offset-path: path("M-200,-30 C-145,-30 -75,0 0,0 C75,0 145,-30 200,-30");
   offset-distance: 50%;
+  box-shadow: 0 12px 24px rgba(9, 30, 66, 0.5), 0 0 1px rgba(9, 30, 66, 0.5);
   animation: card-load 1s forwards;
 }
 
@@ -180,8 +176,7 @@ main {
 }
 
 .card {
-  user-select: none;
-  background: #fff;
+  background: var(--cardBackground);
   height: 450px;
   overflow: hidden;
   width: 300px;
@@ -189,12 +184,12 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  user-select: none;
 }
 
 .card__content {
+  user-select: none;
   bottom: 0;
-  filter: brightness(100%);
   left: 0;
   position: absolute;
   border-top-right-radius: 20px;
@@ -205,8 +200,6 @@ main {
   display: flex;
   width: 100%;
   height: 60%;
-  color: #000;
-  background-color: rgba(0, 0, 0, 0.219);
   text-align: center;
   overflow: hidden;
   pointer-events: none;
@@ -219,21 +212,17 @@ main {
   position: absolute;
   width: 100%;
   transition: 0.5s ease-in-out;
-  color: #000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  pointer-events: none;
 }
 
 .card__information h2 {
-  color: #000;
   display: inline-block;
   font-weight: 300;
   margin-bottom: 5px;
   position: relative;
   overflow: hidden;
-  pointer-events: none;
   font-weight: bold;
 }
 
@@ -249,7 +238,6 @@ main {
   display: flex;
   align-content: center;
   justify-content: center;
-  ;
 }
 
 .card__information__footer__info img {
@@ -274,10 +262,15 @@ main {
 .escape_error {
   padding: 10px;
   color: #000;
-  background: #e0e0e0;
-  border: 1px #e0e0e0 solid;
+  background: var(--offWhite);
+  border: 1px var(--offWhite) solid;
   border-radius: 5px;
   width: fit-content;
+  pointer-events: all;
+}
+
+.escape_error :hover {
+  background: var(--glass)
 }
 
 /* card stats end */
@@ -311,8 +304,10 @@ menu {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 10px 0;
+  margin-top: 10px;
+  padding: 10px;
   width: 100%;
+  background: var(--navBackground);
 }
 
 button {
