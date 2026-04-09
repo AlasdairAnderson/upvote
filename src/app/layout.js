@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 
@@ -12,9 +13,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <StoreProvider children={children}>
+        <StoreProvider>
           <header className="logo">
-            <img src="/upvotelogo.svg" alt="upvote logo" />
+            <Image src="/upvotelogo.svg" alt="upvote logo" width={40} height={40} />
             <h1>UPVOTE</h1>
           </header>
           {children}
