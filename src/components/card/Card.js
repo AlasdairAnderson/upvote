@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addUpvote, addDownvote, deleteVotedCard, selectActiveCard } from "@/lib/features/cards/cardsSlice";
 
@@ -17,7 +18,7 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
     //console.log(content.content);
     switch (content.type) {
       case 'image':
-        return (<img loading="lazy" referrerPolicy="no-referrer" data-testid={'image'} className="card__content image" src={content.content}></img>);
+        return (<Image loading="lazy" referrerPolicy="no-referrer" data-testid={'image'} className="card__content image" src={content.content} alt="Post content" width={400} height={400} unoptimized />);
         break;
       case 'video':
         return (<video data-testid={'video'} className="card__content video" controls loop autoPlay={true}>
@@ -104,13 +105,13 @@ export const Card = ({ animation, card, cardPoistioning, onPointerDragStart, onP
           <h2>{title}</h2>
           <div className="card__information__footer">
             <div className="card__information__footer__info">
-              <img src="/DownvoteIcon.svg" alt="Downvotes" />
+              <Image src="/DownvoteIcon.svg" alt="Downvotes" width={24} height={24} />
               <p>{roundStats(downvotes)}</p>
-              <img src="/UpvoteIcon.svg" alt="Upvotes" />
+              <Image src="/UpvoteIcon.svg" alt="Upvotes" width={24} height={24} />
               <p>{roundStats(upvotes)}</p>
             </div>
             <div className="card__information__footer__info">
-              <img src="/MessageIcon.svg" alt="Comments" />
+              <Image src="/MessageIcon.svg" alt="Comments" width={24} height={24} />
               <p>{roundStats(num_comments)}</p>
             </div>
           </div>
