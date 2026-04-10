@@ -1,7 +1,7 @@
 
 export async function GET(request) {
     try {
-        const searchParams = request.nextUrl.searchParams;
+        const { searchParams } = new URL(request.url);
         const path = searchParams.get("path") || "r/popular.json";
         const after = searchParams.get("after") || null;
         const q = searchParams.get("q") || null;
@@ -38,11 +38,15 @@ export async function GET(request) {
         }
 
         const data = await response.json();
-        return new Response(JSON.stringify(data), { status: 200 });
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        });
     } catch (error) {
         console.error('RedditAPI proxy error: ', error);
         return new Response(JSON.stringify({ error: error.message }), {
             status: 500,
+            headers: { "Content-Type": "application/json" },
         });
     }
 }
