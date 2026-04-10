@@ -1,3 +1,4 @@
+![Upvote Screenshot](Documentation/images/upvoteScreenshot.png)
 # Overview
 Portfolio project for Codecademys full-stack developer pathway utilising the Reddit API to create a front-end application.
 ---
