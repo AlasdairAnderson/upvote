@@ -1,6 +1,5 @@
 ![Upvote Screenshot](Documentation/images/upvoteScreenshot.png)
 # Overview
-[Access Application Here](https://reddit-upvote.netlify.app/)
 Portfolio project for Codecademys full-stack developer pathway utilising the Reddit API to create a front-end application.
 ---
 ## Project Requirements
@@ -10,7 +9,6 @@ Portfolio project for Codecademys full-stack developer pathway utilising the Red
 - [x] Write a README (using Markdown) that documents the project including: Wireframes, technologies used, features, future work.
 - [x] Unit tests with Jest & React test Library.
 - [x] Can be used on any modern browser.
-- [x] User can access application at a URL.
 - [x] User can see initial view of data when first visting the site.
 - [x] User can search data using terms.
 - [x] User can search data using preferred categories.
@@ -21,7 +19,7 @@ Portfolio project for Codecademys full-stack developer pathway utilising the Red
 ## About Project
 ---
 ### Technologies Used
-![NextJSLogo](Documentation/images/NextjsLogo.png#small), ![React](Documentation/images/ReactLogo.png#small), ![Redux](Documentation/images/ReduxLogo.png#small)
+<img src="Documentation/images/NextjsLogo.png" alt="NextJSLogo" width="100px"/> <img src="Documentation/images/ReactLogo.png" alt="ReactLogo" width="100px"/> <img src="Documentation/images/ReduxLogo.png" alt="ReduxLogo" width="100px"/>
 ### Concept
 This project is attempting to make the upvote and downvote system within Reddit a more inter grill part of the user experience through forcing the user to either upvote or downvote a post through the use of tinder like swipe features. Posts will be in a card format,
 ### Features
